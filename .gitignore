@@ -1,0 +1,9 @@
+#Ignore these directories
+Library
+Temp
+Assets/Resources/Music
+
+#ignore these files
+*.userprefs
+*.csproj
+*.sln
