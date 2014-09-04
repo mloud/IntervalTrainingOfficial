@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+using UnityEngine;
 using System.Collections;
 
 public class PresetController : MonoBehaviour
@@ -12,6 +12,6 @@ public class PresetController : MonoBehaviour
 	
 	public void OnClick()
 	{
-		Application.Instance.OnPresetClick (this);
+		AppRoot.Instance.OnPresetClick (this);
 	}
 }

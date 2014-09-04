@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+using UnityEngine;
 using System.Collections;
 using UnityEngine.UI;
 using System.Collections.Generic;
@@ -48,10 +48,10 @@ public class BottomMenuController : MonoBehaviour
 
 		if (button == btnLock)
 		{
-			Application.Instance.Locker.ToggleLock();
+			AppRoot.Instance.Locker.ToggleLock();
 
 			ColorBlock colorBlock = button.colors;
-			if (Application.Instance.Locker.Locked)
+			if (AppRoot.Instance.Locker.Locked)
 			{
 				colorBlock.normalColor = Color.green;
 			}

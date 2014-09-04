@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine.UI;
@@ -14,7 +14,7 @@ public class WorkoutController : MonoBehaviour
 	// Use this for initialization
 	void Start ()
 	{
-		List<ExcerciseDb.Excersice> list = Application.Instance.ExcerciseDb.GetExcersices(ExcerciseDb.ExcersiceCategoryType.Trx);
+		List<ExcerciseDb.Excersice> list = AppRoot.Instance.ExcerciseDb.GetExcersices(ExcerciseDb.ExcersiceCategoryType.Trx);
 
 		Vector2 pos = new Vector2(0, pnlExcerciseDb.rect.height * 0.5f);
 

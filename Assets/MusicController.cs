@@ -47,7 +47,7 @@ public class MusicController : MonoBehaviour {
 	// Update is called once per frame
 	void Update () 
 	{
-		IAudioManager audioManager = Application.Instance.AudioManager;
+		IAudioManager audioManager = AppRoot.Instance.AudioManager;
 		if (audioManager.IsMusicSet())
 		{
 			float songTime = audioManager.GetSongTime();
@@ -60,8 +60,8 @@ public class MusicController : MonoBehaviour {
 			txtCurrentMusicLength.gameObject.SetActive(true);
 			txtMusicTimeLengthDelimiter.gameObject.SetActive(true);
 
-			txtCurrentMusicTime.text = Application.Instance.Timer.GetFormattedTime(songTime,false, true, true);
-			txtCurrentMusicLength.text =  Application.Instance.Timer.GetFormattedTime(songLength, false, true, true);
+			txtCurrentMusicTime.text = AppRoot.Instance.Timer.GetFormattedTime(songTime,false, true, true);
+			txtCurrentMusicLength.text =  AppRoot.Instance.Timer.GetFormattedTime(songLength, false, true, true);
 		}
 		else
 		{
@@ -76,7 +76,7 @@ public class MusicController : MonoBehaviour {
 
 	public void OnButtonClick(Button button)
 	{
-		IAudioManager audioManager = Application.Instance.AudioManager;
+		IAudioManager audioManager = AppRoot.Instance.AudioManager;
 
 		if (button == btnPlay)
 		{
@@ -100,11 +100,11 @@ public class MusicController : MonoBehaviour {
 	{
 		if (button.name == "btnAlbum1")
 		{
-			Application.Instance.AudioManager.SetMusic(Application.Instance.MusicDb.GetMusicGroup("group0"));
+			AppRoot.Instance.AudioManager.SetMusic(AppRoot.Instance.MusicDb.GetMusicGroup("group0"));
 		}
 		else if (button.name == "btnAlbum2")
 		{
-			Application.Instance.AudioManager.SetMusic(Application.Instance.MusicDb.GetMusicGroup("group1"));
+			AppRoot.Instance.AudioManager.SetMusic(AppRoot.Instance.MusicDb.GetMusicGroup("group1"));
 		}
 	
 	}

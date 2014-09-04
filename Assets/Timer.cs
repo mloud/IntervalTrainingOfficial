@@ -30,13 +30,12 @@ public class Timer : MonoBehaviour
 		public int hours;
 		public int minutes;
 		public int seconds;
-
+	
 		public string Name;
 		public float MusicVolume;
 		public Col.ColorType ColorType;
 		public string InfoText;
 		public float Duration() { return hours * 3600 + minutes * 60 + seconds; }
-
 	}
 
 
@@ -308,11 +307,14 @@ public class Timer : MonoBehaviour
 	}
 
 
+	public float CurrentIntervalEndTime()
+	{
+		return CurrentIntervalState.EndTime;
+	}
 
 	public float CurrentIntervalDuration()
 	{
-		return Cfg.Intervals[CurrentIntervalState.Index].Duration();
-
+		return CurrentState == State.Stopped ? Cfg.Intervals [CurrentIntervalState.Index].Duration () : CurrentIntervalState.EndTime - CurrentIntervalState.StartTime;
 	}
 
 	public string GetFormattedTime(float timeSec, bool useMillis = true, bool showZeroHours = false, bool showZeroMinutes = false)
@@ -380,7 +382,7 @@ public class Timer : MonoBehaviour
 
 	public float CurrentIntervalRestTime()
 	{
-		return CurrentIntervalDuration() - CurrentIntervalElapsedTime();
+		return  CurrentState == State.Stopped ? CurrentIntervalDuration() : CurrentIntervalEndTime() - Time.time;
 	}
 
 	public string CurrentIntervalRestTimeFormatted(bool useMillis)

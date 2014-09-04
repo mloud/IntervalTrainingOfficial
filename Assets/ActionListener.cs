@@ -9,19 +9,19 @@ public class ActionListener : MonoBehaviour
 	{
 		if (button.name == "BtnPlay")
 		{
-			Application.Instance.Play();
+			AppRoot.Instance.Play();
 		}
 		else if (button.name == "BtnReset")
 		{
-			Application.Instance.Stop();
+			AppRoot.Instance.Stop();
 		}
 		else if (button.name == "BtnPause")
 		{
-			Application.Instance.PauseTimer();
+			AppRoot.Instance.PauseTimer();
 		}
 		else if (button.name == ("BtnPreset"))
 		{
-			Application.Instance.OnPresetClick(button.GetComponent<PresetController>());
+			AppRoot.Instance.OnPresetClick(button.GetComponent<PresetController>());
 		}
 	}
 

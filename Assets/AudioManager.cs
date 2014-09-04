@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
 
@@ -214,7 +214,7 @@ public class AudioManager : MonoBehaviour, IAudioManager
 	{
 		MusicDb.EffectCategoryType tick = last ? MusicDb.EffectCategoryType.TickLong : MusicDb.EffectCategoryType.Tick;
 
-		EffectAudioSource.clip = Application.Instance.MusicDb.GetEffect(tick);
+		EffectAudioSource.clip = AppRoot.Instance.MusicDb.GetEffect(tick);
 		EffectAudioSource.Play();
 	}
 
@@ -231,14 +231,14 @@ public class AudioManager : MonoBehaviour, IAudioManager
 	
 		if (config.MusicName != "")
 		{
-			SetMusic(Application.Instance.MusicDb.GetMusicGroup(config.MusicName));
+			SetMusic(AppRoot.Instance.MusicDb.GetMusicGroup(config.MusicName));
 		}
 		Play();
 	}
 
 	public void OnTimerEnded()
 	{
-		EffectAudioSource.clip = Application.Instance.MusicDb.GetEffect(MusicDb.EffectCategoryType.TimerFinish);
+		EffectAudioSource.clip = AppRoot.Instance.MusicDb.GetEffect(MusicDb.EffectCategoryType.TimerFinish);
 		EffectAudioSource.Play();
 
 		Pause();
