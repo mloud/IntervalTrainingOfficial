@@ -161,6 +161,9 @@ public class Timer : MonoBehaviour
 	{
 		if (CurrentState == State.Running)
 		{
+			EndTime = StartTime + Duration();
+
+			
 			float timeNow = Time.time;
 
 			// Check for end
@@ -222,8 +225,7 @@ public class Timer : MonoBehaviour
 
 
 		StartTime = Time.time;
-		EndTime = StartTime + Duration();
-
+	
 	
 		CurrentIntervalState.Index = 0;
 		CurrentIntervalState.StartTime = StartTime;
@@ -266,7 +268,8 @@ public class Timer : MonoBehaviour
 		CurrentIntervalState.StartTime = CurrentIntervalState.EndTime;
 		CurrentIntervalState.EndTime = CurrentIntervalState.StartTime + Cfg.Intervals[CurrentIntervalState.Index].Duration();
 	
-		CurrentIntervalState.Round++;
+		if (CurrentIntervalState.Index > Cfg.RepeatFromIndex)
+			CurrentIntervalState.Round++;
 	}
 	
 	public float ElapsedTime()

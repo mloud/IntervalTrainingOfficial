@@ -10,7 +10,8 @@ public class BottomMenuController : MonoBehaviour
 		Timer = 0,
 		Settings,
 		Workout,
-		Music
+		Music,
+		Info
 	}
 
 
