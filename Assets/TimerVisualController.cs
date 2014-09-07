@@ -38,6 +38,8 @@ public class TimerVisualController : MonoBehaviour {
 	[SerializeField]
 	ProgressBar progBarMainTimer;
 
+	[SerializeField]
+	Text txtPaused;
 
 	[SerializeField]
 	ProgressBar progBarIntervalTimer;
@@ -54,6 +56,11 @@ public class TimerVisualController : MonoBehaviour {
 
 
 	public Timer TimerRef { get; set; }
+
+	void Awake()
+	{
+		txtPaused.gameObject.SetActive (false);
+	}
 
 	void Start ()
 	{
@@ -96,6 +103,9 @@ public class TimerVisualController : MonoBehaviour {
 			txtRound.text = TimerRef.CurrentRound().ToString();
 			txtRoundCount.text = TimerRef.RoundCount().ToString();
 
+			float tmp = 1 - TimerRef.CurrentIntervalElapsedTime() / TimerRef.CurrentIntervalDuration();
+			Debug.Log (tmp.ToString());
+
 			progBarMainTimer.Set (1 - TimerRef.ElapsedTime() / TimerRef.Duration());
 			progBarIntervalTimer.Set (1 - TimerRef.CurrentIntervalElapsedTime() / TimerRef.CurrentIntervalDuration());
 
@@ -137,6 +147,8 @@ public class TimerVisualController : MonoBehaviour {
 	{
 		btnPlay.gameObject.SetActive(false);
 		btnPause.gameObject.SetActive(true);
+
+		txtPaused.gameObject.SetActive (false);
 	}
 	
 	public void OnTimerEnded()
@@ -152,11 +164,15 @@ public class TimerVisualController : MonoBehaviour {
 
 		DstPausedColorAlpha = 0.2f;
 
+		txtPaused.gameObject.SetActive (true);
+
 	}
 
 	public void OnIntervalStarted(Timer.IntervalDefinition intervalDef)
 	{
 		intervalInfoText.text = intervalDef.InfoText;
+
+		txtPaused.gameObject.SetActive (false);
 	}
 	
 	public void OnTimerUnPause(Timer.IntervalDefinition intervalDef)
@@ -167,12 +183,17 @@ public class TimerVisualController : MonoBehaviour {
 		// set opaque
 		Color intervalColor = imgIntervalImage.color;
 		intervalColor.a = 1;
+
+		txtPaused.gameObject.SetActive (false);
+	
 	}
 	
 	public void OnTimerReset()
 	{
 		btnPlay.gameObject.SetActive(true);
 		btnPause.gameObject.SetActive(false);
+
+		txtPaused.gameObject.SetActive (false);
 	}
 
 }

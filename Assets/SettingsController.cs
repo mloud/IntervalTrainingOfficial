@@ -4,43 +4,28 @@ using UnityEngine.UI;
 
 public class SettingsController : MonoBehaviour
 {
-	public enum TimerType
+	public enum NumericType
 	{
-		Main = 0,
-		Interval0,
-		Interval1
+		Rounds,
+		WarmUp,
+		Work,
+		Rest
 	}
 
 	[SerializeField]
 	GameObject presetPrefab;
 
-	[SerializeField]
-	Button btnHours0;
+	[System.Serializable]
+	private class NumericClass
+	{
+		public NumericType Type;
+
+		public List<NumItem> NumItems; 
+	}
+
 
 	[SerializeField]
-	Button btnHours1;
-
-	[SerializeField]
-	Button btnMinutes0;
-	
-	[SerializeField]
-	Button btnMinutes1;
-
-	[SerializeField]
-	Button btnSeconds0;
-	
-	[SerializeField]
-	Button btnSeconds1;
-
-	[SerializeField]
-	Button btnRepetitions;
-
-	[SerializeField]
-	Button btnMinutesWarmUp;
-
-	[SerializeField]
-	Button btnSecondsWarmUp;
-
+	List<NumericClass> _numericObjects;
 
 
 	[SerializeField]
@@ -49,20 +34,10 @@ public class SettingsController : MonoBehaviour
 
 	Button TimeButton {get; set;}
 
-
-	[SerializeField]
-	Transform warmUpContainer;
-
-	[SerializeField]
-	Transform interval0Container;
-
-	[SerializeField]
-	Transform interval1Container;
-
 	[SerializeField]
 	Transform presetContainer;
 
-	Dictionary<Button, Text>  ButtonTexts { get; set; } 
+
 
 
 
@@ -70,23 +45,6 @@ public class SettingsController : MonoBehaviour
 	// Use this for initialization
 	void Awake ()
 	{
-		ButtonTexts = new Dictionary<Button, Text> ();
-
-		ButtonTexts.Add (btnHours0, btnHours0.GetComponentInChildren<Text> ());
-		ButtonTexts.Add (btnMinutes0, btnMinutes0.GetComponentInChildren<Text> ());
-		ButtonTexts.Add (btnSeconds0, btnSeconds0.GetComponentInChildren<Text> ());
-
-		ButtonTexts.Add (btnHours1, btnHours1.GetComponentInChildren<Text> ());
-		ButtonTexts.Add (btnMinutes1, btnMinutes1.GetComponentInChildren<Text> ());
-		ButtonTexts.Add (btnSeconds1, btnSeconds1.GetComponentInChildren<Text> ());
-
-		ButtonTexts.Add (btnMinutesWarmUp, btnMinutesWarmUp.GetComponentInChildren<Text> ());
-		ButtonTexts.Add (btnSecondsWarmUp, btnSecondsWarmUp.GetComponentInChildren<Text> ());
-
-
-		ButtonTexts.Add (btnRepetitions, btnRepetitions.GetComponentInChildren<Text> ());
-
-
 	}
 	
 	// Update is called once per frame
@@ -105,36 +63,61 @@ public class SettingsController : MonoBehaviour
 	
 	public void Init()
 	{
-		warmUpContainer.gameObject.SetActive(false);
-		interval0Container.gameObject.SetActive(false);
-		interval1Container.gameObject.SetActive(false);
+		ShowNumericObjects (true);
 
+	
 		if (AppRoot.Instance.Timer.Cfg.Intervals.Count > 0)
 		{
-			warmUpContainer.gameObject.SetActive(true);
-			ButtonTexts[btnMinutesWarmUp].text = AppRoot.Instance.Timer.Cfg.Intervals[0].minutes.ToString();
-			ButtonTexts[btnSecondsWarmUp].text = AppRoot.Instance.Timer.Cfg.Intervals[0].seconds.ToString();
+			NumericClass numObj = _numericObjects.Find(x=>x.Type == NumericType.WarmUp);
+
+			numObj.NumItems[0].SetValue(AppRoot.Instance.Timer.Cfg.Intervals[0].minutes);
+			numObj.NumItems[1].SetValue(AppRoot.Instance.Timer.Cfg.Intervals[0].seconds);
+
+			numObj.NumItems[0].OnValueChanged = OnWarmUpMinutes;
+			numObj.NumItems[1].OnValueChanged = OnWarmUpSeconds;
+
 		}
 
 		if (AppRoot.Instance.Timer.Cfg.Intervals.Count > 1)
 		{
-			interval0Container.gameObject.SetActive(true);
-			ButtonTexts[btnHours0].text = AppRoot.Instance.Timer.Cfg.Intervals[1].hours.ToString();
-			ButtonTexts[btnMinutes0].text = AppRoot.Instance.Timer.Cfg.Intervals[1].minutes.ToString();
-			ButtonTexts[btnSeconds0].text = AppRoot.Instance.Timer.Cfg.Intervals[1].seconds.ToString();
+			NumericClass numObj = _numericObjects.Find(x=>x.Type == NumericType.Work);
+				
+			numObj.NumItems[0].SetValue(AppRoot.Instance.Timer.Cfg.Intervals[1].minutes);
+			numObj.NumItems[1].SetValue(AppRoot.Instance.Timer.Cfg.Intervals[1].seconds);
+
+			numObj.NumItems[0].OnValueChanged = OnWorkMinutes;
+			numObj.NumItems[1].OnValueChanged = OnWorkSeconds;
 		}
 
 		if (AppRoot.Instance.Timer.Cfg.Intervals.Count > 2)
 		{
-			interval1Container.gameObject.SetActive(true);
-			ButtonTexts[btnHours1].text = AppRoot.Instance.Timer.Cfg.Intervals[2].hours.ToString();
-			ButtonTexts[btnMinutes1].text = AppRoot.Instance.Timer.Cfg.Intervals[2].minutes.ToString();
-			ButtonTexts[btnSeconds1].text = AppRoot.Instance.Timer.Cfg.Intervals[2].seconds.ToString();
+			NumericClass numObj = _numericObjects.Find(x=>x.Type == NumericType.Rest);
+			
+			numObj.NumItems[0].SetValue(AppRoot.Instance.Timer.Cfg.Intervals[2].minutes);
+			numObj.NumItems[1].SetValue(AppRoot.Instance.Timer.Cfg.Intervals[2].seconds);
+
+			numObj.NumItems[0].OnValueChanged = OnRestMinutes;
+			numObj.NumItems[1].OnValueChanged = OnRestSeconds;
 		}
 
-		ButtonTexts[btnRepetitions].text = AppRoot.Instance.Timer.Cfg.RepetitionCount.ToString();
+		NumericClass numObjRounds = _numericObjects.Find(x=>x.Type == NumericType.Rounds);
+
+		numObjRounds.NumItems[0].SetValue(AppRoot.Instance.Timer.Cfg.RepetitionCount);
+		numObjRounds.NumItems[0].OnValueChanged = OnRounds;
+
+
 	}
 
+	private void ShowNumericObjects(bool show)
+	{
+		for (int i = 0; i < _numericObjects.Count; ++i)
+		{
+			for (int j = 0; j < _numericObjects[i].NumItems.Count; ++j)
+			{
+				_numericObjects[i].NumItems[j].gameObject.SetActive(show);
+			}
+		}
+	}
 
 	private void FillPresets()
 	{
@@ -164,70 +147,40 @@ public class SettingsController : MonoBehaviour
 
 
 
-	public void OnWarmUpMinutes(Button button)
+	public void OnWarmUpMinutes(NumItem numItem)
 	{
-		AppRoot.Instance.Timer.Cfg.Intervals [0].minutes += button.name.Contains("Plus") ? 1 : -1;
-		AppRoot.Instance.Timer.Cfg.Intervals [0].minutes = Mathf.Clamp (AppRoot.Instance.Timer.Cfg.Intervals [0].minutes, 0, 59);
-		Init ();
+		AppRoot.Instance.Timer.Cfg.Intervals [0].minutes = numItem.Value;
 	}
 
-	public void OnWarmUpSeconds(Button button)
+	public void OnWarmUpSeconds(NumItem numItem)
 	{
-		AppRoot.Instance.Timer.Cfg.Intervals [0].seconds += button.name.Contains("Plus") ? 1 : -1;
-		AppRoot.Instance.Timer.Cfg.Intervals [0].seconds = Mathf.Clamp (AppRoot.Instance.Timer.Cfg.Intervals [0].seconds, 0, 59);
-		Init ();
-
+		AppRoot.Instance.Timer.Cfg.Intervals [0].seconds = numItem.Value;
 	}
 
 
-
-	public void OnInterval0Hours (Button button)
+	public void OnWorkMinutes (NumItem numItem)
 	{
-		AppRoot.Instance.Timer.Cfg.Intervals [1].hours += button.name.Contains("Plus") ? 1 : -1;
-		AppRoot.Instance.Timer.Cfg.Intervals [1].hours = Mathf.Clamp (AppRoot.Instance.Timer.Cfg.Intervals [1].hours, 0, 99);
-		Init ();
+		AppRoot.Instance.Timer.Cfg.Intervals [1].minutes = numItem.Value;
 	}
 
-	public void OnInterval0Minutes (Button button)
+	public void OnWorkSeconds (NumItem numItem)
 	{
-		AppRoot.Instance.Timer.Cfg.Intervals [1].minutes += button.name.Contains("Plus") ? 1 : -1;;
-		AppRoot.Instance.Timer.Cfg.Intervals [1].minutes = Mathf.Clamp (AppRoot.Instance.Timer.Cfg.Intervals [1].minutes, 0, 59);
-		Init ();
+		AppRoot.Instance.Timer.Cfg.Intervals [1].seconds = numItem.Value;
 	}
 
-	public void OnInterval0Seconds (Button button)
+	public void OnRestMinutes (NumItem numItem)
 	{
-		AppRoot.Instance.Timer.Cfg.Intervals [1].seconds += button.name.Contains("Plus") ? 1 : -1;;
-		AppRoot.Instance.Timer.Cfg.Intervals [1].seconds = Mathf.Clamp (AppRoot.Instance.Timer.Cfg.Intervals [1].seconds, 0, 59);
-		Init ();
-	}
-
-	public void OnInterval1Hours (Button button)
-	{
-		AppRoot.Instance.Timer.Cfg.Intervals [2].hours += button.name.Contains("Plus") ? 1 : -1;
-		AppRoot.Instance.Timer.Cfg.Intervals [2].hours = Mathf.Clamp (AppRoot.Instance.Timer.Cfg.Intervals [2].hours, 0, 99);
-		Init ();
+		AppRoot.Instance.Timer.Cfg.Intervals [2].minutes = numItem.Value;
 	}
 	
-	public void OnInterval1Minutes (Button button)
+	public void OnRestSeconds (NumItem numItem)
 	{
-		AppRoot.Instance.Timer.Cfg.Intervals [2].minutes += button.name.Contains("Plus") ? 1 : -1;
-		AppRoot.Instance.Timer.Cfg.Intervals [2].minutes = Mathf.Clamp (AppRoot.Instance.Timer.Cfg.Intervals [2].minutes, 0, 59);
-		Init ();
-	}
-	
-	public void OnInterval1Seconds (Button button)
-	{
-		AppRoot.Instance.Timer.Cfg.Intervals [2].seconds += button.name.Contains("Plus") ? 1 : -1;
-		AppRoot.Instance.Timer.Cfg.Intervals [2].seconds = Mathf.Clamp (AppRoot.Instance.Timer.Cfg.Intervals [2].seconds, 0, 59);
-		Init ();
+		AppRoot.Instance.Timer.Cfg.Intervals [2].seconds = numItem.Value;
 	}
 
-	public void OnRounds (Button button)
+	public void OnRounds (NumItem numItem)
 	{
-		AppRoot.Instance.Timer.Cfg.RepetitionCount += button.name.Contains("Plus") ? 1 : -1;
-		AppRoot.Instance.Timer.Cfg.RepetitionCount = Mathf.Clamp (AppRoot.Instance.Timer.Cfg.RepetitionCount, 1, 99);
-		Init ();
+		AppRoot.Instance.Timer.Cfg.RepetitionCount = numItem.Value;
 	}
 
 	void OnEnable()
@@ -237,11 +190,20 @@ public class SettingsController : MonoBehaviour
 		FillPresets ();
 	}
 
+	void OnDisable()
+	{
+		ShowNumericObjects (false);
+	}
+
 	public void OnBack()
 	{
 
 		AppRoot.Instance.ShowTimerPage();
 	}
 
+
+	private void UpdateInput()
+	{
+	}
 
 }

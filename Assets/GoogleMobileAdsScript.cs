@@ -20,9 +20,9 @@ public class GoogleMobileAdsScript : MonoBehaviour
 	private void RequestBanner()
 	{
 		#if UNITY_EDITOR
-		string adUnitId = "unused";
+		string adUnitId =  "ca-app-pub-5124747143108174/4886389442";
 		#elif UNITY_ANDROID
-		string adUnitId = "ca-app-pub-5124747143108174/8590062246";
+		string adUnitId =  "ca-app-pub-5124747143108174/4886389442";
 		#elif UNITY_IPHONE
 		string adUnitId = "INSERT_IOS_BANNER_AD_UNIT_ID_HERE";
 		#else
@@ -30,7 +30,7 @@ public class GoogleMobileAdsScript : MonoBehaviour
 		#endif
 		
 		// Create a 320x50 banner at the top of the screen.
-		bannerView = new BannerView(adUnitId, AdSize.SmartBanner, AdPosition.Top);
+		bannerView = new BannerView(adUnitId, AdSize.SmartBanner, AdPosition.Bottom);
 		// Register for ad events.
 		bannerView.AdLoaded += HandleAdLoaded;
 		bannerView.AdFailedToLoad += HandleAdFailedToLoad;

@@ -45,7 +45,7 @@ public class Utils : MonoBehaviour
 	{
 		string email = "gmloud@gmail.com";
 		string subject = MyEscapeURL("IntervalTrainer");
-		string body = MyEscapeURL("Don't hesitate to ask here.");
+		string body = MyEscapeURL("Don't hesitate to ask, report bugs or propose new functions.");
 		
 		Application.OpenURL("mailto:" + email + "?subject=" + subject + "&body=" + body);
 	}

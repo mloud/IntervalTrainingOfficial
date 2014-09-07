@@ -49,7 +49,6 @@ public class AppRoot : MonoBehaviour
 		// run in 20 fps
 		UnityEngine.Application.targetFrameRate = 20;
 		UnityEngine.Application.runInBackground = true;
-
 	}
 
 
@@ -84,6 +83,14 @@ public class AppRoot : MonoBehaviour
 	
 	void Update () 
 	{
+		if (Application.platform == RuntimePlatform.Android)
+		{
+			if (Input.GetKey(KeyCode.Escape))
+			{
+				Application.Quit();
+				return;
+			}
+		}
 	}
 
 

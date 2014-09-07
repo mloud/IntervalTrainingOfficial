@@ -1,8 +1,8 @@
 fileFormatVersion: 2
-guid: 0e2014c7cd8f9424f8de6025ccfa2d89
+guid: 65c9ca9b4692747648d55fd3a728240e
 TextureImporter:
   fileIDToRecycleName:
-    21300000: hearth
+    21300000: BtnPlus
   serializedVersion: 2
   mipmaps:
     mipMapMode: 0
