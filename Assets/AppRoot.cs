@@ -99,6 +99,11 @@ public class AppRoot : MonoBehaviour
 		if (Timer.CurrentState == Timer.State.Running)
 		{
 			Timer.Pause();
+			CrittercismAndroid.LeaveBreadcrumb("AppRoot.PauseTimer() ");
+		}
+		else
+		{
+			
 		}
 	}
 
@@ -106,6 +111,8 @@ public class AppRoot : MonoBehaviour
 	{
 		Screen.sleepTimeout = SleepTimeout.SystemSetting;
 		Timer.Reset();
+
+		CrittercismAndroid.LeaveBreadcrumb("AppRoot.Stop()");
 	}
 
 
@@ -121,12 +128,16 @@ public class AppRoot : MonoBehaviour
 			Screen.sleepTimeout = SleepTimeout.NeverSleep;
 			Timer.UnPause();
 		}
+
+		CrittercismAndroid.LeaveBreadcrumb("AppRoot.Play()");
 	}
 
 
 	public void OnPresetClick(PresetController preset)
 	{
 		pnlSettingsController.OnPresetClick (preset);
+
+		CrittercismAndroid.LeaveBreadcrumb("AppRoot.OnPresetClick() " + preset.PresetName);
 	}
 
 	public void ShowSettingsPage()
@@ -134,12 +145,16 @@ public class AppRoot : MonoBehaviour
 		pnlTimer.gameObject.SetActive(false);
 		pnlSettingsController.gameObject.SetActive(true);
 		pnlSettingsController.Init();
+
+		CrittercismAndroid.LeaveBreadcrumb("AppRoot.ShowSettingsPage() ");
 	}
 
 	public void ShowTimerPage()
 	{
 		pnlTimer.gameObject.SetActive(true);
 		pnlSettingsController.gameObject.SetActive(false);
+
+		CrittercismAndroid.LeaveBreadcrumb("AppRoot.ShowTimerPage() ");
 	}
 
 	public void ShowPageWorkout()
@@ -147,6 +162,8 @@ public class AppRoot : MonoBehaviour
 		pnlTimer.gameObject.SetActive(false);
 		pnlSettingsController.gameObject.SetActive(false);
 		pnlWorkout.gameObject.SetActive(true);
+
+		CrittercismAndroid.LeaveBreadcrumb("AppRoot.ShowPageWorkout() ");
 	}
 
 	public void ShowPageMusic()
@@ -155,6 +172,19 @@ public class AppRoot : MonoBehaviour
 		pnlSettingsController.gameObject.SetActive(false);
 		pnlWorkout.gameObject.SetActive(false);
 		pnlMusic.gameObject.SetActive(true);
+
+		CrittercismAndroid.LeaveBreadcrumb("AppRoot.ShowPageMusic() ");
+	}
+
+
+	public void OnApplicationPause()
+	{
+	
+	}
+
+	public void OnApplicationQuit()
+	{
+		CrittercismAndroid.LeaveBreadcrumb("AppRoot.OnApplicationQuit() time: " + Time.time);
 	}
 
 

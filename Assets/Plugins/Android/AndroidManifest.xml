@@ -4,6 +4,11 @@
   <!-- Google Mobile Ads Permissions -->
 	<uses-permission android:name="android.permission.INTERNET" />
 	<uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+	
+	<!-- Crittercism -->
+	<uses-permission android:name="android.permission.READ_LOGS"/>
+	<uses-permission android:name="android.permission.GET_TASKS"/>
+	
   <application android:icon="@drawable/app_icon" android:label="@string/app_name" android:debuggable="false">
     <!-- meta-data tag for Google Play services -->
     <meta-data android:name="com.google.android.gms.version" android:value="@integer/google_play_services_version"/>
