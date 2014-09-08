@@ -27,14 +27,19 @@ namespace core
 
 			public void SetTextKey(string key)
 			{
-				TextValue = AppRoot.Instance.TextManager.Get (key);
-
-				if (toUpper)
+				if (key != null)
 				{
-					TextValue = TextValue.ToUpper();
-				}
+					textKey = key;
 
-				Text.text = TextValue;
+					TextValue = AppRoot.Instance.TextManager.Get (key);
+
+					if (toUpper)
+					{
+						TextValue = TextValue.ToUpper();
+					}
+
+					Text.text = TextValue;
+				}
 			}
 
 			public void ReInit()

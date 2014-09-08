@@ -60,7 +60,22 @@ namespace core
 
 		public string Get(string key)
 		{
-			return Texts [key];
+			string result;
+			bool succ = Texts.TryGetValue(key, out result);
+
+			if (succ)
+			{
+				return result;
+			}
+			else
+			{
+				core.dbg.Dbg.Log("TextManager.Get() " + key + " doesn't exist");
+#if DEBUG
+				return "?";
+#else
+				return "";
+#endif
+			}
 		}
 	}
 }

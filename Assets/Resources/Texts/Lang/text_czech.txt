@@ -34,3 +34,5 @@ STR_TOTAL_TIME
 Celkový čas
 STR_INFO
 Info
+STR_WARMING_UP
+Zahřívání

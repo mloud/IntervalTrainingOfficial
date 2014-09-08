@@ -34,3 +34,5 @@ STR_TOTAL_TIME
 Total time
 STR_INFO
 Info
+STR_WARMING_UP
+Warming up

@@ -48,7 +48,7 @@ public class TimerVisualController : MonoBehaviour {
 	Image imgIntervalImage;
 
 	[SerializeField]
-	Text intervalInfoText;
+	core.ui.ExtText intervalInfoText;
 
 
 	private Color InactiveIntervalImageColor;
@@ -170,7 +170,7 @@ public class TimerVisualController : MonoBehaviour {
 
 	public void OnIntervalStarted(Timer.IntervalDefinition intervalDef)
 	{
-		intervalInfoText.text = intervalDef.InfoText;
+		intervalInfoText.SetTextKey (intervalDef.InfoText);
 
 		txtPaused.gameObject.SetActive (false);
 	}
