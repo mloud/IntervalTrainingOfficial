@@ -30,8 +30,15 @@ namespace core
 
 						if (key != null && value != null)
 						{
-							Texts.Add(key, value);
-							core.dbg.Dbg.Log("adding: " + key + " " + value);
+							if (Texts.ContainsKey(key))
+							{
+								core.dbg.Dbg.Log("already exists: " + key);
+							}
+							else
+							{
+								Texts.Add(key, value);
+								core.dbg.Dbg.Log("adding: " + key + " " + value);
+							}
 						}
 						else if (key != null || value != null)
 						{

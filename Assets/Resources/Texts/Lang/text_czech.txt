@@ -36,3 +36,7 @@ STR_INFO
 Info
 STR_WARMING_UP
 Zahřívání
+STR_TABATA
+Tabata
+STR_BRING_SALLY
+Bring sally

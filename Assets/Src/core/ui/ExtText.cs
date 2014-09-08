@@ -18,15 +18,27 @@ namespace core
 			private Text Text { get; set; }
 			private string TextValue { get; set; }
 
-			void Start()
+			void Init()
 			{
 				Text = GetComponent<Text> ();
+				
+				core.dbg.Dbg.Assert (Text != null, "ExtText.Start(): no Text component found");
+			}
+
+			void Start()
+			{
+				Init ();
 
 				SetTextKey (textKey);
 			}
 
 			public void SetTextKey(string key)
 			{
+				if (Text == null)
+				{
+					Init ();
+				}
+
 				if (key != null)
 				{
 					textKey = key;

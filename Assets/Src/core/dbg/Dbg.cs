@@ -18,6 +18,19 @@ namespace core
 					CrittercismAndroid.LeaveBreadcrumb("Time.time: " + message);
 				}
 			}
+
+			public static void LogError(string message)
+			{
+				throw new UnityException(message);
+			}
+
+			public static void Assert(bool condition, string message)
+			{
+				if (!condition)
+					throw new UnityException(message);
+			}
+
+
 		}
 	}
 }

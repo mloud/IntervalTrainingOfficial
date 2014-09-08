@@ -5,11 +5,14 @@ public class PresetController : MonoBehaviour
 {
 	public string PresetName { get; set; }
 
-	void Start () 
+	public core.ui.ExtText ExtText { private set; get; }
+
+	void Awake()
 	{
-	
+		ExtText = GetComponentInChildren<core.ui.ExtText> ();
 	}
-	
+
+
 	public void OnClick()
 	{
 		AppRoot.Instance.OnPresetClick (this);

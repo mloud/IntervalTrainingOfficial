@@ -134,10 +134,12 @@ public class SettingsController : MonoBehaviour
 				GameObject presetGo = Instantiate(presetPrefab) as GameObject;
 				presetGo.transform.parent = presetContainer;
 
-				presetGo.transform.GetComponentInChildren<Text>().text = AppRoot.Instance.Timer.Presets[i].Name;
-				presetGo.name = AppRoot.Instance.Timer.Presets[i].Name;
+				PresetController presetController = presetGo.transform.GetComponent<PresetController>();
 
-				presetGo.transform.GetComponent<PresetController>().PresetName = AppRoot.Instance.Timer.Presets[i].Name;
+				presetController.ExtText.SetTextKey(AppRoot.Instance.Timer.Presets[i].Name);
+				presetController.PresetName = AppRoot.Instance.Timer.Presets[i].Name;
+				presetController.name = AppRoot.Instance.Timer.Presets[i].Name;
+
 			}
 		}
 	}

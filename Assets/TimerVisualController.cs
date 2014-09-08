@@ -122,7 +122,7 @@ public class TimerVisualController : MonoBehaviour {
 			{
 
 				float newAlpha = imgIntervalImage.color.a + ((imgIntervalImage.color.a - DstPausedColorAlpha) > 0 ? -0.035f : 0.035f);
-				Debug.Log (newAlpha.ToString());
+			
 
 				if ( Mathf.Abs(newAlpha - DstPausedColorAlpha) < 0.05f)
 				{
