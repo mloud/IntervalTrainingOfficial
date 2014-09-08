@@ -1,0 +1,36 @@
+STR_ROUND
+Kolo
+STR_PAUSED
+Pauza
+STR_ROUNDS
+Kol
+STR_WARM_UP
+Zahřátí
+STR_WORK
+Makej
+STR_REST
+Odpočívej
+STR_MINUTES
+Minuty
+STR_SECONDS
+Vteřiny
+STR_PRESET_INTERVALS
+Přednastavené intervaly
+STR_CUSTOM
+Vlastní
+STR_EASY
+Snadný
+STR_NORMAL
+Střední
+STR_HARD
+Těžký
+STR_TABATA
+Tabata
+STR_VISIT_US
+Navštiv nás
+STR_CONTACT_US
+Napiš nám
+STR_TOTAL_TIME
+Celkový čas
+STR_INFO
+Info

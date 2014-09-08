@@ -3,8 +3,11 @@ using UnityEngine.UI;
 using System.Collections;
 using System.Collections.Generic;
 
-public class AppRoot : MonoBehaviour 
+public class AppRoot : core.AppRootBase 
 {
+
+
+
 	[SerializeField]
 	RectTransform pnlTimer;
 
@@ -42,7 +45,7 @@ public class AppRoot : MonoBehaviour
 
 	private static AppRoot _instance = null;
 
-	void Awake()
+	protected override void OnPreInit()
 	{
 		_instance = this;
 
@@ -52,7 +55,7 @@ public class AppRoot : MonoBehaviour
 	}
 
 
-	void Start () 
+	protected override void OnPostInit()
 	{
 		TimerController.TimerRef = Timer;
 
@@ -175,18 +178,6 @@ public class AppRoot : MonoBehaviour
 
 		CrittercismAndroid.LeaveBreadcrumb("AppRoot.ShowPageMusic() ");
 	}
-
-
-	public void OnApplicationPause()
-	{
-	
-	}
-
-	public void OnApplicationQuit()
-	{
-		CrittercismAndroid.LeaveBreadcrumb("AppRoot.OnApplicationQuit() time: " + Time.time);
-	}
-
 
 
 }

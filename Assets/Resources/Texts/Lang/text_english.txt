@@ -1,0 +1,36 @@
+STR_ROUND
+Round
+STR_PAUSED
+Paused
+STR_ROUNDS
+Rounds
+STR_WARM_UP
+Warm up
+STR_WORK
+Work
+STR_REST
+Rest
+STR_MINUTES
+Minutes
+STR_SECONDS
+Seconds
+STR_PRESET_INTERVALS
+Preset intervals
+STR_CUSTOM
+Custom
+STR_EASY
+Easy
+STR_NORMAL
+Normal
+STR_HARD
+Hard
+STR_TABATA
+Tabata
+STR_VISIT_US
+Visit us
+STR_CONTACT_US
+Contact us
+STR_TOTAL_TIME
+Total time
+STR_INFO
+Info
