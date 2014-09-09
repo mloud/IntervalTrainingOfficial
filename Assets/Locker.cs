@@ -79,9 +79,9 @@ public class Locker : MonoBehaviour
 			imgLockIcon.gameObject.SetActive(true);
 
 
-		Button[] buttons = GameObject.FindObjectsOfType<Button> ();
-
-		for(int i = 0; i < buttons.Length; ++i)
+		List<Button> buttons = new List<Button> (GameObject.FindObjectsOfType<Button> ());
+	
+		for(int i = 0; i < buttons.Count; ++i)
 		{
 			if (buttons[i] != LockButton)
 				SetButtonActive(buttons[i], false);
@@ -97,9 +97,9 @@ public class Locker : MonoBehaviour
 		if (!externalyDriven)
 			imgLockIcon.gameObject.SetActive(false);
 
-		Button[] buttons = GameObject.FindObjectsOfType<Button> ();
-		
-		for(int i = 0; i < buttons.Length; ++i)
+		List<Button> buttons = new List<Button> (GameObject.FindObjectsOfType<Button> ());
+	
+		for(int i = 0; i < buttons.Count; ++i)
 		{
 			if (buttons[i] != LockButton)
 				SetButtonActive(buttons[i], true);

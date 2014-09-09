@@ -103,9 +103,6 @@ public class TimerVisualController : MonoBehaviour {
 			txtRound.text = TimerRef.CurrentRound().ToString();
 			txtRoundCount.text = TimerRef.RoundCount().ToString();
 
-			float tmp = 1 - TimerRef.CurrentIntervalElapsedTime() / TimerRef.CurrentIntervalDuration();
-			Debug.Log (tmp.ToString());
-
 			progBarMainTimer.Set (1 - TimerRef.ElapsedTime() / TimerRef.Duration());
 			progBarIntervalTimer.Set (1 - TimerRef.CurrentIntervalElapsedTime() / TimerRef.CurrentIntervalDuration());
 

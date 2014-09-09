@@ -19,24 +19,32 @@ public class ExtButton : Button
 
 	public override void OnPointerDown (PointerEventData eventData)
 	{
-		base.OnPointerDown (eventData);
+		if (interactable)
+		{
 
-		_isPointerDown = true;
+			base.OnPointerDown (eventData);
 
-		_autoIncrementPassed = false;
+			_isPointerDown = true;
 
-		if (!_coroutineRunning)
-			StartCoroutine (OnHoldCoroutine());
+			_autoIncrementPassed = false;
+
+			if (!_coroutineRunning)
+				StartCoroutine (OnHoldCoroutine());
+		}
 	}
 
 	public override void OnPointerUp (PointerEventData eventData)
 	{
-		base.OnPointerUp (eventData);
+		if (interactable)
+		{
 
-		_isPointerDown = false;
+			base.OnPointerUp (eventData);
 
-		if (!_autoIncrementPassed)
-			OnPointerDownDelegate(this);
+			_isPointerDown = false;
+
+			if (!_autoIncrementPassed)
+				OnPointerDownDelegate(this);
+		}
 	}
 
 	private IEnumerator OnHoldCoroutine()
