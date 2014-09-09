@@ -19,7 +19,7 @@ public interface IAudioManager
 	float GetSongLength();
 
 
-	void OnTick(bool last);
+	void OnTick(int index, int count);
 	void OnIntervalStarted(Timer.IntervalDefinition intervalDef);
 	void OnTimerStarted(Timer.Config config);
 	void OnTimerEnded();
@@ -210,12 +210,28 @@ public class AudioManager : MonoBehaviour, IAudioManager
 
 
 	////   Delegates   ////
-	public void OnTick(bool last)
+	public void OnTick(int index, int count)
 	{
-		MusicDb.EffectCategoryType tick = last ? MusicDb.EffectCategoryType.TickLong : MusicDb.EffectCategoryType.Tick;
+		//MusicDb.EffectCategoryType tick = index == count - 1 ? MusicDb.EffectCategoryType.TickLong : MusicDb.EffectCategoryType.Tick;
 
-		EffectAudioSource.clip = AppRoot.Instance.MusicDb.GetEffect(tick);
+		//EffectAudioSource.clip = AppRoot.Instance.MusicDb.GetEffect(tick);
+		//EffectAudioSource.Play();
+	
+		string intervalName = AppRoot.Instance.Timer.Cfg.Intervals [AppRoot.Instance.Timer.CurrentIntervalState.Index].Name;
+
+		string effectPrefabName = "";
+		if (intervalName == "work")
+		{
+			effectPrefabName = "WorkIntervalEnd";
+		}
+		else if (intervalName == "rest" || intervalName == "warmup")
+		{
+			effectPrefabName = "RestIntervalEnd";
+		}
+		GameObject go = Resources.Load("Audio/Effects/" + effectPrefabName) as GameObject;
+		EffectAudioSource.clip = go.GetComponent<trn.aud.AudioClipList>().AudioClips[index];
 		EffectAudioSource.Play();
+
 	}
 
 	public void OnIntervalStarted(Timer.IntervalDefinition intervalDef)

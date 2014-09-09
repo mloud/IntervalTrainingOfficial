@@ -22,7 +22,7 @@ public class Timer : MonoBehaviour
 	public delegate void TimerResetDelegate();
 	public delegate void IntervalStartedDelegate(IntervalDefinition intervalDef);
 	public delegate void IntervalEndedDelegate();
-	public delegate void IntervalTickDelegate(bool last);
+	public delegate void IntervalTickDelegate(int index, int count);
 
 	[System.Serializable]
 	public class IntervalDefinition
@@ -45,6 +45,7 @@ public class Timer : MonoBehaviour
 	{
 		public List<IntervalDefinition> Intervals;
 
+	
 		public int RepetitionCount;
 		public int NoticeTicks;
 		public int RepeatFromIndex;
@@ -63,7 +64,8 @@ public class Timer : MonoBehaviour
 			MusicName = config.MusicName;
 			LenghtFromMusic = config.LenghtFromMusic;
 			LoopMusic = config.LoopMusic;
-		
+
+
 			Intervals = new List<IntervalDefinition>(config.Intervals.Count);
 
 			for (int i = 0; i < config.Intervals.Count; ++i)
@@ -76,6 +78,7 @@ public class Timer : MonoBehaviour
 				intervalDefinition.MusicVolume = config.Intervals[i].MusicVolume;
 				intervalDefinition.seconds = config.Intervals[i].seconds;
 				intervalDefinition.InfoText = config.Intervals[i].InfoText; 
+
 				Intervals.Add(intervalDefinition);
 			}
 
@@ -188,7 +191,7 @@ public class Timer : MonoBehaviour
 						
 						if (IntervalTick != null)
 						{
-							IntervalTick( i == (CurrentIntervalState.NoticeTicks.Count - 1));
+							IntervalTick( i, CurrentIntervalState.NoticeTicks.Count);
 						}
 					}
 				}
