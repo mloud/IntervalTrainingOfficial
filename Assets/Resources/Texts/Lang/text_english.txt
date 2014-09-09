@@ -40,3 +40,5 @@ STR_TABATA
 Tabata
 STR_BRING_SALLY
 Bring sally
+STR_CANCEL_CURRENT_TRAINING
+Do you want to cancel current training?
