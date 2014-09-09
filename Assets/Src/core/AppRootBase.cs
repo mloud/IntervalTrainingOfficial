@@ -5,6 +5,8 @@ namespace core
 	public class AppRootBase : MonoBehaviour
 	{
 		public core.TextManager TextManager { get; private set; }
+		public core.ui.UIManager UIManager { get; private set; }
+
 
 		void Awake()
 		{
@@ -21,13 +23,18 @@ namespace core
 			Debug.Log ("AppRootBase.PreInit()");
 
 			core.Config.Init ();
-			
+
+			// create TextManager
 			TextManager = new core.TextManager ();
-			
+
 			if (!TextManager.LoadTextFile (core.Config.GetLanguageFilename(Language())))
 			{
 				TextManager.LoadTextFile (core.Config.GetLanguageFilename(core.Config.GetDefaultLanguageFilename()));
 			}
+
+			//UIManager
+			UIManager = GameObject.FindObjectOfType<core.ui.UIManager> ();
+			UIManager.DialogFactory = GameObject.FindObjectOfType<core.ui.DialogFactory> ();
 
 			OnPreInit ();
 		}

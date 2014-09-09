@@ -14,7 +14,7 @@ public class ActionListener : MonoBehaviour
 		else if (button.name == "BtnReset")
 		{
 			//Application.CaptureScreenshot("Screenshot.png");
-			AppRoot.Instance.Stop();
+			AppRoot.Instance.Stop(true);
 		}
 		else if (button.name == "BtnPause")
 		{

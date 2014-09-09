@@ -110,12 +110,21 @@ public class AppRoot : core.AppRootBase
 		}
 	}
 
-	public void Stop()
+	public void Stop(bool showConfirm)
 	{
-		Screen.sleepTimeout = SleepTimeout.SystemSetting;
-		Timer.Reset();
+		if (showConfirm && Timer.CurrentState != Timer.State.Stopped)
+		{
+			PauseTimer();
+			UIManager.OpenDialog(trn.ui.DialogDef.DlgResetTimer);
+		
+		}
+		else
+		{
+			Screen.sleepTimeout = SleepTimeout.SystemSetting;
+			Timer.Reset();
 
-		CrittercismAndroid.LeaveBreadcrumb("AppRoot.Stop()");
+			CrittercismAndroid.LeaveBreadcrumb("AppRoot.Stop()");
+		}
 	}
 
 
@@ -177,6 +186,23 @@ public class AppRoot : core.AppRootBase
 		pnlMusic.gameObject.SetActive(true);
 
 		CrittercismAndroid.LeaveBreadcrumb("AppRoot.ShowPageMusic() ");
+	}
+
+
+	public void OnCancelWorkoutDialogOK()
+	{
+		UIManager.CloseDialog (trn.ui.DialogDef.DlgResetTimer);
+
+		Stop (false);
+	}
+
+	public void OnCancelWorkoutDialogBack()
+	{
+		core.dbg.Dbg.Assert(Timer.CurrentState == Timer.State.Paused, "AppRoot.OnCancelWorkoutDialogBack unexpected timer state");
+
+		UIManager.CloseDialog (trn.ui.DialogDef.DlgResetTimer);
+
+		Play();
 	}
 
 
