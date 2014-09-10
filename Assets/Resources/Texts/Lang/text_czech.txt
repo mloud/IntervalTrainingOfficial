@@ -48,3 +48,9 @@ STR_LABEL_REST
 Odpočinek
 STR_LABEL_WARM_UP
 Zahřátí
+STR_YOUR
+Tvůj
+STR_INTERVAL_TRAINING
+Intervalový Trénink
+STR_LOADING
+Nahrávám...

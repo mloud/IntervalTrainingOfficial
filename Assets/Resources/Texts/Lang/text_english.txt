@@ -48,3 +48,9 @@ STR_LABEL_REST
 Rest
 STR_LABEL_WARM_UP
 Warm up
+STR_YOUR
+Your
+STR_INTERVAL_TRAINING
+Interval Training
+STR_LOADING
+Loading...
