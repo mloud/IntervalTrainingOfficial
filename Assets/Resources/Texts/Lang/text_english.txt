@@ -42,3 +42,9 @@ STR_BRING_SALLY
 Bring sally
 STR_CANCEL_CURRENT_TRAINING
 Do you want to cancel current training?
+STR_LABEL_WORK
+Work
+STR_LABEL_REST
+Rest
+STR_LABEL_WARM_UP
+Warm up

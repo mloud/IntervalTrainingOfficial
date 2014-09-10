@@ -42,3 +42,9 @@ STR_BRING_SALLY
 Bring sally
 STR_CANCEL_CURRENT_TRAINING
 Chceš ukončit probíhající trénink?
+STR_LABEL_WORK
+Cvičení
+STR_LABEL_REST
+Odpočinek
+STR_LABEL_WARM_UP
+Zahřátí
