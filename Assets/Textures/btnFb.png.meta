@@ -1,8 +1,8 @@
 fileFormatVersion: 2
-guid: db9868d8699f54477ab8be9350f93514
+guid: b457ba85bdc7e4432a105a90d20fd371
 TextureImporter:
   fileIDToRecycleName:
-    21300000: fbNormal
+    21300000: btnFb
   serializedVersion: 2
   mipmaps:
     mipMapMode: 0

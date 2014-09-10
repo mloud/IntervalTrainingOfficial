@@ -1,8 +1,8 @@
 fileFormatVersion: 2
-guid: 1c4387a292f644829ad0f783d549d64d
+guid: 174dec0138f204441acb5e98493b9921
 TextureImporter:
   fileIDToRecycleName:
-    21300000: fbcontactus
+    21300000: btnMail
   serializedVersion: 2
   mipmaps:
     mipMapMode: 0
