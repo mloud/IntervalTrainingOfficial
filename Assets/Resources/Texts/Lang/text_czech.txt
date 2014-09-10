@@ -41,7 +41,7 @@ Tabata
 STR_BRING_SALLY
 Bring sally
 STR_CANCEL_CURRENT_TRAINING
-Chceš ukončit probíhající trénink?
+Chcete ukončit probíhající trénink?
 STR_LABEL_WORK
 Cvičení
 STR_LABEL_REST
@@ -54,3 +54,5 @@ STR_INTERVAL_TRAINING
 Intervalový Trénink
 STR_LOADING
 Nahrávám...
+STR_TRAINING_FINISHED
+Trénink ukončen

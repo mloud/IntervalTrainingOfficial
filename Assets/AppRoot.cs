@@ -61,6 +61,8 @@ public class AppRoot : core.AppRootBase
 
 		Timer.Reset();
 
+		Timer.TimerEnded += this.OnTimerEnded;
+
 		Timer.IntervalTick += AudioManager.OnTick;
 		Timer.IntervalStarted += AudioManager.OnIntervalStarted;
 		Timer.TimerStarted += AudioManager.OnTimerStarted;
@@ -152,6 +154,11 @@ public class AppRoot : core.AppRootBase
 		CrittercismAndroid.LeaveBreadcrumb("AppRoot.OnPresetClick() " + preset.PresetName);
 	}
 
+	public void OnTimerEnded()
+	{
+		UIManager.OpenDialog (trn.ui.DialogDef.DlgTrainingFinished);
+	}
+
 	public void ShowSettingsPage()
 	{
 		pnlTimer.gameObject.SetActive(false);
@@ -203,6 +210,12 @@ public class AppRoot : core.AppRootBase
 		UIManager.CloseDialog (trn.ui.DialogDef.DlgResetTimer);
 
 		Play();
+	}
+
+	public void OnTrainingFinishedDialogOK()
+	{
+		UIManager.CloseDialog (trn.ui.DialogDef.DlgTrainingFinished);
+		Timer.Reset ();
 	}
 
 

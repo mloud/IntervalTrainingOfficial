@@ -54,3 +54,5 @@ STR_INTERVAL_TRAINING
 Interval Training
 STR_LOADING
 Loading...
+STR_TRAINING_FINISHED
+Training finished

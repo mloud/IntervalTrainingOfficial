@@ -11,6 +11,7 @@ namespace trn
 		public static class DialogDef
 		{
 			public static string DlgResetTimer = "DlgResetTimer";
+			public static string DlgTrainingFinished = "DlgTrainingFinished";
 
 		}
 	}
