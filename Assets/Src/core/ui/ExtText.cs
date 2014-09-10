@@ -43,7 +43,7 @@ namespace core
 				{
 					textKey = key;
 
-					TextValue = AppRoot.Instance.TextManager.Get (key);
+					TextValue = TextManager.Instance.Get (key);
 
 					if (toUpper)
 					{

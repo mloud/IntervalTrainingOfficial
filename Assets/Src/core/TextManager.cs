@@ -6,7 +6,24 @@ namespace core
 {
 	public class TextManager
 	{
+
+		public static TextManager Instance 
+		{ 
+			get
+			{ 
+				if (_instance == null)
+				{
+					_instance =  new TextManager();
+				}
+
+				return _instance;
+			}
+		}
+
+		private static TextManager _instance;
+
 		private Dictionary<string, string> Texts;
+
 
 		public bool LoadTextFile(string filename)
 		{

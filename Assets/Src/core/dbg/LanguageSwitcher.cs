@@ -20,7 +20,7 @@ namespace core
 
 			private void SwitchToLanguage(string language)
 			{
-				AppRoot.Instance.TextManager.LoadTextFile (core.Config.GetLanguageFilename (language));
+				core.TextManager.Instance.LoadTextFile (core.Config.GetLanguageFilename (language));
 				
 				core.ui.ExtText[] extTexts = GameObject.FindObjectsOfType<core.ui.ExtText> ();
 

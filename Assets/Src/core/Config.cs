@@ -36,7 +36,7 @@ namespace core
 		}
 
 			
-			public static void Init()
+		public static void Init()
 		{
 			LoadSupportedLanguages ();
 		}

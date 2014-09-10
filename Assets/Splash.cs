@@ -9,9 +9,14 @@ public class Splash : MonoBehaviour {
 
 	private float CloseTime { get; set; }
 
+	void Awake()
+	{
+		core.AppRootBase.StaticInit ();
+	}
+
 	void Start ()
 	{
-		CloseTime = Time.time + duration;
+				CloseTime = Time.time + duration;
 	}
 	
 	// Update is called once per frame

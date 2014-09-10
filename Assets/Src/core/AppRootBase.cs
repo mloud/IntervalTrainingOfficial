@@ -4,7 +4,6 @@ namespace core
 {
 	public class AppRootBase : MonoBehaviour
 	{
-		public core.TextManager TextManager { get; private set; }
 		public core.ui.UIManager UIManager { get; private set; }
 
 
@@ -18,20 +17,23 @@ namespace core
 			PostInit ();
 		}
 
+		public static void StaticInit()
+		{
+			core.Config.Init ();
+
+			if (!core.TextManager.Instance.LoadTextFile (core.Config.GetLanguageFilename(Language())))
+			{
+				core.TextManager.Instance.LoadTextFile (core.Config.GetLanguageFilename(core.Config.GetDefaultLanguageFilename()));
+			}
+
+		}
+
 		void PreInit()
 		{
 			Debug.Log ("AppRootBase.PreInit()");
 
-			core.Config.Init ();
-
-			// create TextManager
-			TextManager = new core.TextManager ();
-
-			if (!TextManager.LoadTextFile (core.Config.GetLanguageFilename(Language())))
-			{
-				TextManager.LoadTextFile (core.Config.GetLanguageFilename(core.Config.GetDefaultLanguageFilename()));
-			}
-
+			StaticInit ();
+		
 			//UIManager
 			UIManager = GameObject.FindObjectOfType<core.ui.UIManager> ();
 			UIManager.DialogFactory = GameObject.FindObjectOfType<core.ui.DialogFactory> ();
@@ -39,7 +41,7 @@ namespace core
 			OnPreInit ();
 		}
 
-		public string Language()
+		public static string Language()
 		{
 			return Application.systemLanguage.ToString ();
 		}
