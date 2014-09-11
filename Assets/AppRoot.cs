@@ -218,5 +218,15 @@ public class AppRoot : core.AppRootBase
 		Timer.Reset ();
 	}
 
+	public void OnDemoVersionDialogPurchase()
+	{
+		Utils.Instance.OpenFullVersionLink ();
+	}
+
+	public void OnDemoVersionContinueDemo()
+	{
+		UIManager.CloseDialog (trn.ui.DialogDef.DlgDemoVersion);
+	}
+
 
 }

@@ -56,3 +56,9 @@ STR_LOADING
 Nahrávám...
 STR_TRAINING_FINISHED
 Trénink ukončen
+STR_DEMO_VERSION
+Používáte demo verzi aplikace. Maximální délka tréninku je omezena na {*minutes*} minut. Pokud chcete toto omezení odstranit můžete si koupit plnou verzi aplikace.
+STR_PURCHASE_FULL_VERSION
+Koupit plnou verzi
+STR_CONTINUE_DEMO
+Pokračovat v demo módu

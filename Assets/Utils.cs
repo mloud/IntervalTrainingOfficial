@@ -17,6 +17,13 @@ public class Utils : MonoBehaviour
 		StartCoroutine (OpenFacebookPageCoroutineInternal());
 	}
 
+	public void OpenFullVersionLink()
+	{
+		Application.OpenURL ("market://details?id=com.MloudWork.IntervalTraining");
+		//Application.OpenURL ("market://details?q=pname:com.MloudWork.IntervalTraining");
+		//Application.OpenURL ("http://unity3d.com/");
+	}
+	
 	private IEnumerator OpenFacebookPageCoroutineInternal()
 	{
 		Application.OpenURL("fp://www.facebook.com/IntervalTrainer");
@@ -54,6 +61,8 @@ public class Utils : MonoBehaviour
 	{
 		return WWW.EscapeURL(url).Replace("+","%20");
 	}
+
+
 
 
 }

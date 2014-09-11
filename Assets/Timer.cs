@@ -27,6 +27,11 @@ public class Timer : MonoBehaviour
 	[System.Serializable]
 	public class IntervalDefinition
 	{
+		public IntervalDefinition ShallowCopy()
+		{
+			return (IntervalDefinition)this.MemberwiseClone ();
+		}
+
 		public int hours;
 		public int minutes;
 		public int seconds;
@@ -57,6 +62,32 @@ public class Timer : MonoBehaviour
 		public bool LoopMusic;
 		public bool Enabled;
 	
+		public Config Clone()
+		{
+			Config config = new Config ();
+
+			config.RepetitionCount = RepetitionCount;
+			config.NoticeTicks = NoticeTicks;
+			config.RepeatFromIndex = RepeatFromIndex;
+			config.Order = Order;
+			config.Name = Name;
+			config.MusicName = MusicName;
+			config.LenghtFromMusic = LenghtFromMusic;
+			config.LoopMusic = LoopMusic;
+			config.Enabled = Enabled;
+
+			config.Intervals = new List<IntervalDefinition> ();
+
+			for (int i = 0; i < Intervals.Count; ++i)
+			{
+				config.Intervals.Add(Intervals[i].ShallowCopy());
+			}
+
+
+			return config;
+
+		}
+
 		public void SetFrom(Config config)
 		{
 			RepetitionCount = config.RepetitionCount;

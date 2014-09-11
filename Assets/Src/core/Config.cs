@@ -5,6 +5,18 @@ namespace core
 {
 	public static class Config
 	{
+
+		public struct Demo
+		{
+#if DEMO
+			public static bool Enabled = true;
+			public static int TimeLimit = 20 * 60; // 5 minutes
+#else
+
+			public static bool Enabled = false;
+			public static int TimeLimit = -1;
+#endif
+		}
 		public static List<string> SupportedLanguages { get; private set; }
 
 		private static string LanguageFilename = "text_";

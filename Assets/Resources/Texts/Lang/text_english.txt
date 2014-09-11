@@ -56,3 +56,9 @@ STR_LOADING
 Loading...
 STR_TRAINING_FINISHED
 Training finished
+STR_DEMO_VERSION
+You are using demo version of the application. Maximum length of the training is limited to {*minutes*} minutes. To remove this limitation, you may purchase full version of the application.
+STR_PURCHASE_FULL_VERSION
+Purchase full version
+STR_CONTINUE_DEMO
+Continue with demo

@@ -4,6 +4,7 @@ using UnityEngine.UI;
 
 public class NumItem : MonoBehaviour 
 {
+
 	public delegate void ValueChangedDelegate(NumItem numItem);
 
 	public ValueChangedDelegate OnValueChanged;

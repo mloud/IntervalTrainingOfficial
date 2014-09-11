@@ -147,42 +147,82 @@ public class SettingsController : MonoBehaviour
 
 
 
+	private void CheckDemo(Timer.Config originalConfig)
+	{
+		if (core.Config.Demo.Enabled)
+		{
+			if (AppRoot.Instance.Timer.Duration() > core.Config.Demo.TimeLimit)
+			{
+				AppRoot.Instance.Timer.Cfg = originalConfig;
+				
+				// todo show dialog
+				AppRoot.Instance.UIManager.OpenDialog (trn.ui.DialogDef.DlgDemoVersion);
+			}
+		}
+	}
 
 
 	public void OnWarmUpMinutes(NumItem numItem)
 	{
+		Timer.Config config = AppRoot.Instance.Timer.Cfg.Clone ();
 		AppRoot.Instance.Timer.Cfg.Intervals [0].minutes = numItem.Value;
+
+		CheckDemo (config);
 	}
 
 	public void OnWarmUpSeconds(NumItem numItem)
 	{
+		Timer.Config config = AppRoot.Instance.Timer.Cfg.Clone ();
+
 		AppRoot.Instance.Timer.Cfg.Intervals [0].seconds = numItem.Value;
+
+		CheckDemo (config);
 	}
 
 
 	public void OnWorkMinutes (NumItem numItem)
 	{
+		Timer.Config config = AppRoot.Instance.Timer.Cfg.Clone ();
+
 		AppRoot.Instance.Timer.Cfg.Intervals [1].minutes = numItem.Value;
+
+		CheckDemo (config);
 	}
 
 	public void OnWorkSeconds (NumItem numItem)
 	{
+		Timer.Config config = AppRoot.Instance.Timer.Cfg.Clone ();
+
 		AppRoot.Instance.Timer.Cfg.Intervals [1].seconds = numItem.Value;
+
+		CheckDemo (config);
 	}
 
 	public void OnRestMinutes (NumItem numItem)
 	{
+		Timer.Config config = AppRoot.Instance.Timer.Cfg.Clone ();
+
 		AppRoot.Instance.Timer.Cfg.Intervals [2].minutes = numItem.Value;
+
+		CheckDemo (config);
 	}
 	
 	public void OnRestSeconds (NumItem numItem)
 	{
+		Timer.Config config = AppRoot.Instance.Timer.Cfg.Clone ();
+
 		AppRoot.Instance.Timer.Cfg.Intervals [2].seconds = numItem.Value;
+
+		CheckDemo (config);
 	}
 
 	public void OnRounds (NumItem numItem)
 	{
+		Timer.Config config = AppRoot.Instance.Timer.Cfg.Clone ();
+
 		AppRoot.Instance.Timer.Cfg.RepetitionCount = numItem.Value;
+
+		CheckDemo (config);
 	}
 
 	void OnEnable()

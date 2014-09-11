@@ -12,7 +12,7 @@ namespace trn
 		{
 			public static string DlgResetTimer = "DlgResetTimer";
 			public static string DlgTrainingFinished = "DlgTrainingFinished";
-
+			public static string DlgDemoVersion = "DlgDemoVersion";
 		}
 	}
 }

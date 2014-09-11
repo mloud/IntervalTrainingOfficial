@@ -6,7 +6,6 @@ namespace core
 {
 	public class TextManager
 	{
-
 		public static TextManager Instance 
 		{ 
 			get
@@ -23,6 +22,9 @@ namespace core
 		private static TextManager _instance;
 
 		private Dictionary<string, string> Texts;
+	
+		private const string TOKEN_START = "{*";
+		private const string TOKEN_END = "*}";
 
 
 		public bool LoadTextFile(string filename)
@@ -82,18 +84,25 @@ namespace core
 			return succ;
 		}
 
-		public string Get(string key)
+		public string Get(string key, string tokenName = null, string tokenValue = null)
 		{
 			string result;
 			bool succ = Texts.TryGetValue(key, out result);
 
 			if (succ)
 			{
+				core.dbg.Dbg.Assert( (tokenName == null && tokenValue == null) || (tokenName != null && tokenValue != null), string.Empty);
+
+				if (tokenName != null && tokenValue != null)
+				{
+					result = ExpandToken(result, tokenName, tokenValue);
+				}
+
 				return result;
 			}
 			else
 			{
-				core.dbg.Dbg.Log("TextManager.Get() " + key + " doesn't exist");
+				core.dbg.Dbg.Assert(false, "TextManager.Get() " + key + " doesn't exist");
 #if DEBUG
 				return "?";
 #else
@@ -101,5 +110,28 @@ namespace core
 #endif
 			}
 		}
+
+		private string ExpandToken(string srcText, string tokenName, string tokenValue)
+		{
+			core.dbg.Dbg.Log ("TextManager.ExpandToken() in " + srcText + " by " + tokenName + " -> " + tokenValue);
+
+			string tokenNameWithSymbols = TOKEN_START + tokenName + TOKEN_END;
+
+			bool containsToken = srcText.Contains (tokenNameWithSymbols);
+
+			core.dbg.Dbg.Assert(containsToken, "TextManager.ExpandToken() " + srcText + " doesn't containt token " + tokenNameWithSymbols);
+
+			if (containsToken)
+			{
+				srcText = srcText.Replace(tokenNameWithSymbols, tokenValue);
+			}
+
+			core.dbg.Dbg.Log ("TextManager.ExpandToken() result " + srcText);
+
+			return srcText;
+		}
+
+
+
 	}
 }

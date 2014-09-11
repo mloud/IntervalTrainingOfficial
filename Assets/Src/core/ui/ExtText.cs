@@ -14,6 +14,10 @@ namespace core
 			[SerializeField]
 			bool toUpper;
 
+			[SerializeField]
+			bool SetTextOnStart = true;
+
+			
 
 			private Text Text { get; set; }
 			private string TextValue { get; set; }
@@ -29,21 +33,24 @@ namespace core
 			{
 				Init ();
 
-				SetTextKey (textKey);
+				if (SetTextOnStart)
+					SetTextKey (textKey);
 			}
 
-			public void SetTextKey(string key)
+		
+
+			public void SetTextKey(string key, string tokenKey = null, string tokenValue = null)
 			{
 				if (Text == null)
 				{
 					Init ();
 				}
 
-				if (key != null)
+				if (!string.IsNullOrEmpty(key))
 				{
 					textKey = key;
 
-					TextValue = TextManager.Instance.Get (key);
+					TextValue = TextManager.Instance.Get (key, tokenKey, tokenValue);
 
 					if (toUpper)
 					{
