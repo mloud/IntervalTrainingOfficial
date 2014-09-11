@@ -32,7 +32,8 @@ namespace core
 					{
 						dialog = dialogQueueRoot.GetChild(i).GetComponent<Dialog>();
 						dialog.gameObject.SetActive(true);
-						Dialogs.Add (dialog);
+						if (!Dialogs.Contains(dialog))
+							Dialogs.Add (dialog);
 						break;
 					}
 				}

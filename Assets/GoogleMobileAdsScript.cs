@@ -13,7 +13,10 @@ public class GoogleMobileAdsScript : MonoBehaviour
 
 	void Start()
 	{
-		RequestBanner ();
+		if (core.Config.ShowAdverts)
+		{
+			RequestBanner ();
+		}
 	}
 
 	

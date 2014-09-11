@@ -5,6 +5,15 @@ using System.Collections.Generic;
 
 public class BottomMenuController : MonoBehaviour 
 {
+	[SerializeField]
+	Mode mode;
+
+	public enum Mode
+	{
+		Add,
+		NoAdd
+	}
+
 	public enum PanelType
 	{
 		Timer = 0,
@@ -32,6 +41,18 @@ public class BottomMenuController : MonoBehaviour
 	[SerializeField]
 	List<Panel> Panels;
 
+
+	void Awake()
+	{
+		if (core.Config.ShowAdverts)
+		{
+			gameObject.SetActive(mode == Mode.Add);
+		}
+		else
+		{
+			gameObject.SetActive(mode == Mode.NoAdd);
+		}
+	}
 
 	void Start()
 	{

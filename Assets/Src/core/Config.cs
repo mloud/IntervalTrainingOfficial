@@ -17,6 +17,14 @@ namespace core
 			public static int TimeLimit = -1;
 #endif
 		}
+
+#if ADVERTS
+		public static bool ShowAdverts = true;
+#else
+		public static bool ShowAdverts = false;
+#endif
+
+
 		public static List<string> SupportedLanguages { get; private set; }
 
 		private static string LanguageFilename = "text_";

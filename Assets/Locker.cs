@@ -83,7 +83,7 @@ public class Locker : MonoBehaviour
 	
 		for(int i = 0; i < buttons.Count; ++i)
 		{
-			if (buttons[i] != LockButton)
+			if (buttons[i].name != "BtnLock")
 				SetButtonActive(buttons[i], false);
 		}
 	}
@@ -101,7 +101,7 @@ public class Locker : MonoBehaviour
 	
 		for(int i = 0; i < buttons.Count; ++i)
 		{
-			if (buttons[i] != LockButton)
+			if (buttons[i].name != "BtnLock")
 				SetButtonActive(buttons[i], true);
 		}
 	}
