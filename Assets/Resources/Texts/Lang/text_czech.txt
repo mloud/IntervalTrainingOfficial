@@ -62,3 +62,5 @@ STR_PURCHASE_FULL_VERSION
 Koupit plnou verzi
 STR_CONTINUE_DEMO
 Pokračovat v demo módu
+STR_DEMO
+Demo

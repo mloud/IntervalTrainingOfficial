@@ -62,3 +62,5 @@ STR_PURCHASE_FULL_VERSION
 Purchase full version
 STR_CONTINUE_DEMO
 Continue with demo
+STR_DEMO
+Demo

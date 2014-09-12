@@ -10,7 +10,7 @@ namespace core
 		{
 #if DEMO
 			public static bool Enabled = true;
-			public static int TimeLimit = 20 * 60; // 5 minutes
+			public static int TimeLimit = 25 * 60; // 5 minutes
 #else
 
 			public static bool Enabled = false;
