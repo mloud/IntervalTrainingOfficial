@@ -56,7 +56,7 @@ public class PresetController : MonoBehaviour
 			}
 		}
 
-
+	
 		if (Removable && Timer > 0 && Time.time > Timer)
 		{
 			Timer = -1;
@@ -67,6 +67,8 @@ public class PresetController : MonoBehaviour
 
 	private void OnRemoveModeStart()
 	{
+		GetComponentInParent<SettingsController> ().DeselectAll ();
+
 		removeButton.gameObject.SetActive(true);
 
 		animator.SetTrigger ("select");
@@ -82,8 +84,6 @@ public class PresetController : MonoBehaviour
 	private void OnEditModeStart()
 	{
 		confirmButton.gameObject.SetActive(true);
-		
-		//animator.SetTrigger ("select");
 	}
 
 	private void OnEditModeEnd()
@@ -144,15 +144,17 @@ public class PresetController : MonoBehaviour
 		OnEditModeStart ();
 	}
 
-	public void HideEditButton()
-	{
-		OnEditModeEnd ();
-	}
-
 
 	public void Hightlight()
 	{
 		animator.SetTrigger ("edit");
+	}
+
+	public void Deselect()
+	{
+		confirmButton.gameObject.SetActive (false);
+		removeButton.gameObject.SetActive (false);
+		animator.Play("Idle");
 	}
 
 }

@@ -56,13 +56,17 @@ public class SettingsController : MonoBehaviour
 
 	public void AddNewPreset(string name)
 	{
-		CreateNewPreset(name);
+		PresetController presetController = CreateNewPreset(name);
 
 		FillPresets();
+
+		presetController.OnClick ();
 	}
 
 	public void OnPresetClick(PresetController preset)
 	{
+		DeselectAll ();
+
 		if (preset.PresetName == "ADD_NEW")
 		{
 
@@ -184,7 +188,7 @@ public class SettingsController : MonoBehaviour
 	private void ReinitPresetContainer()
 	{
 		presetContainer.rect.Set (0, 0, 0, 0);
-		presetContainer.sizeDelta = new Vector2((presetContainer.childCount) * 30.0f, presetContainer.sizeDelta.y * 0.5f);
+		presetContainer.sizeDelta = new Vector2((presetContainer.childCount) * 50.0f, presetContainer.sizeDelta.y * 0.5f);
 	}
 	
 
@@ -296,15 +300,27 @@ public class SettingsController : MonoBehaviour
 	{
 		SelectedPreset = null;
 
-		preset.HideEditButton ();
+		preset.Deselect ();
+	}
+
+	public void DeselectAll()
+	{
+		for (int i = 0; i < presetContainer.childCount; ++i)
+		{
+			PresetController presetController = presetContainer.GetChild(i).GetComponent<PresetController>();
+
+			presetController.Deselect();
+		}
 	}
 
 	public void OnRemovePreset(PresetController preset)
 	{
+		FillPresets ();
+
 		ReinitPresetContainer ();
 	}
 
-	private void CreateNewPreset(string name)
+	private PresetController CreateNewPreset(string name)
 	{
 		Timer.Config config = AppRoot.Instance.Timer.CreateNewConfig ();
 
@@ -322,16 +338,15 @@ public class SettingsController : MonoBehaviour
 		presetController.PresetName = config.Name;
 		presetController.name = config.Name;
 		presetController.Removable = true;
-
-
-		SelectPreset (presetController);
+	
+		return presetController;	
 	}
 
 	void SelectPreset(PresetController presetController)
 	{
 		if (SelectedPreset != null)
 		{
-			SelectedPreset.HideEditButton();
+			SelectedPreset.Deselect();
 		}
 
 		SelectedPreset = presetController;

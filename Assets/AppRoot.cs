@@ -47,7 +47,7 @@ public class AppRoot : core.AppRootBase
 		_instance = this;
 
 		// run in 20 fps
-		UnityEngine.Application.targetFrameRate = 20;
+		UnityEngine.Application.targetFrameRate = 30;
 		UnityEngine.Application.runInBackground = true;
 
 		Save = new trn.CustomSave ();
@@ -149,6 +149,7 @@ public class AppRoot : core.AppRootBase
 		}
 		else
 		{
+			Timer.UnPause();
 			Screen.sleepTimeout = SleepTimeout.SystemSetting;
 			Timer.Reset();
 
@@ -302,8 +303,11 @@ public class AppRoot : core.AppRootBase
 		// add
 		else
 		{
-			pnlSettingsController.AddNewPreset(textWithName.text);
 			UIManager.CloseDialog (trn.ui.DialogDef.DlgTrainingName);
+
+			pnlSettingsController.AddNewPreset(textWithName.text);
+
+			(Save as trn.CustomSave).SavePresets();
 		}
 	}
 
