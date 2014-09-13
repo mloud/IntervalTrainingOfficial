@@ -64,3 +64,11 @@ STR_CONTINUE_DEMO
 Pokračovat v demo módu
 STR_DEMO
 Demo
+STR_ADD_NEW
+Přidat nový
+STR_NEW
+Nový
+STR_TRAINING_NAME
+Pojmenuj trénink
+STR_TRAINING_EXISTS
+Trénink s tímto jménem již existuje. Zvolte jiné.

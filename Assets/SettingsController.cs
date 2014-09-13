@@ -35,10 +35,10 @@ public class SettingsController : MonoBehaviour
 	Button TimeButton {get; set;}
 
 	[SerializeField]
-	Transform presetContainer;
+	RectTransform presetContainer;
 
 
-
+	private PresetController SelectedPreset { get; set; }
 
 
 
@@ -53,11 +53,32 @@ public class SettingsController : MonoBehaviour
 		txtTime.text = AppRoot.Instance.Timer.DurationFormatted(false);
 
 	}
+
+	public void AddNewPreset(string name)
+	{
+		CreateNewPreset(name);
+
+		FillPresets();
+	}
+
 	public void OnPresetClick(PresetController preset)
 	{
-		AppRoot.Instance.Timer.SetPresetConfig(preset.PresetName);
+		if (preset.PresetName == "ADD_NEW")
+		{
 
-		Init ();
+			AppRoot.Instance.UIManager.OpenDialog(trn.ui.DialogDef.DlgTrainingName);
+
+
+		}
+		else
+		{
+			AppRoot.Instance.Timer.SetPresetConfig(preset.PresetName);
+			
+			Init ();
+
+			SelectPreset (preset);
+
+		}
 	}
 
 	
@@ -127,6 +148,7 @@ public class SettingsController : MonoBehaviour
 		}
 
 
+
 		for (int i = 0; i < AppRoot.Instance.Timer.Presets.Count; ++i)
 		{
 			if (AppRoot.Instance.Timer.Presets[i].Enabled)
@@ -139,35 +161,42 @@ public class SettingsController : MonoBehaviour
 				presetController.ExtText.SetTextKey(AppRoot.Instance.Timer.Presets[i].Name);
 				presetController.PresetName = AppRoot.Instance.Timer.Presets[i].Name;
 				presetController.name = AppRoot.Instance.Timer.Presets[i].Name;
-
+				presetController.Removable = AppRoot.Instance.Timer.Presets[i].Removable;
 			}
 		}
-	}
 
-
-
-
-	private void CheckDemo(Timer.Config originalConfig)
-	{
-		if (core.Config.Demo.Enabled)
 		{
-			if (AppRoot.Instance.Timer.Duration() > core.Config.Demo.TimeLimit)
-			{
-				AppRoot.Instance.Timer.Cfg = originalConfig;
-				
-				// todo show dialog
-				AppRoot.Instance.UIManager.OpenDialog (trn.ui.DialogDef.DlgDemoVersion);
-			}
+			// add new one
+			GameObject presetGo = Instantiate(presetPrefab) as GameObject;
+			presetGo.transform.parent = presetContainer;
+			
+			PresetController presetController = presetGo.transform.GetComponent<PresetController>();
+			
+			presetController.ExtText.SetTextKey("STR_ADD_NEW");
+			presetController.PresetName = "ADD_NEW";
+			presetController.name = "ADD_NEW";
+			presetController.Removable = false;
 		}
-	}
 
+		ReinitPresetContainer ();
+	}
+	
+	private void ReinitPresetContainer()
+	{
+		presetContainer.rect.Set (0, 0, 0, 0);
+		presetContainer.sizeDelta = new Vector2((presetContainer.childCount) * 30.0f, presetContainer.sizeDelta.y * 0.5f);
+	}
+	
 
 	public void OnWarmUpMinutes(NumItem numItem)
 	{
 		Timer.Config config = AppRoot.Instance.Timer.Cfg.Clone ();
 		AppRoot.Instance.Timer.Cfg.Intervals [0].minutes = numItem.Value;
 
-		CheckDemo (config);
+		if (SelectedPreset)
+			SelectedPreset.ShowEditButton ();
+
+		//CheckDemo (config);
 	}
 
 	public void OnWarmUpSeconds(NumItem numItem)
@@ -176,7 +205,11 @@ public class SettingsController : MonoBehaviour
 
 		AppRoot.Instance.Timer.Cfg.Intervals [0].seconds = numItem.Value;
 
-		CheckDemo (config);
+
+		if (SelectedPreset)
+			SelectedPreset.ShowEditButton ();
+
+		//CheckDemo (config);
 	}
 
 
@@ -186,7 +219,11 @@ public class SettingsController : MonoBehaviour
 
 		AppRoot.Instance.Timer.Cfg.Intervals [1].minutes = numItem.Value;
 
-		CheckDemo (config);
+
+		if (SelectedPreset)
+			SelectedPreset.ShowEditButton ();
+
+		//CheckDemo (config);
 	}
 
 	public void OnWorkSeconds (NumItem numItem)
@@ -195,7 +232,10 @@ public class SettingsController : MonoBehaviour
 
 		AppRoot.Instance.Timer.Cfg.Intervals [1].seconds = numItem.Value;
 
-		CheckDemo (config);
+		if (SelectedPreset)
+			SelectedPreset.ShowEditButton ();
+
+		//CheckDemo (config);
 	}
 
 	public void OnRestMinutes (NumItem numItem)
@@ -204,7 +244,10 @@ public class SettingsController : MonoBehaviour
 
 		AppRoot.Instance.Timer.Cfg.Intervals [2].minutes = numItem.Value;
 
-		CheckDemo (config);
+		if (SelectedPreset)
+			SelectedPreset.ShowEditButton ();
+
+		//CheckDemo (config);
 	}
 	
 	public void OnRestSeconds (NumItem numItem)
@@ -213,7 +256,10 @@ public class SettingsController : MonoBehaviour
 
 		AppRoot.Instance.Timer.Cfg.Intervals [2].seconds = numItem.Value;
 
-		CheckDemo (config);
+		if (SelectedPreset)
+			SelectedPreset.ShowEditButton ();
+
+		//CheckDemo (config);
 	}
 
 	public void OnRounds (NumItem numItem)
@@ -222,7 +268,10 @@ public class SettingsController : MonoBehaviour
 
 		AppRoot.Instance.Timer.Cfg.RepetitionCount = numItem.Value;
 
-		CheckDemo (config);
+		if (SelectedPreset)
+			SelectedPreset.ShowEditButton ();
+
+		//CheckDemo (config);
 	}
 
 	void OnEnable()
@@ -243,9 +292,52 @@ public class SettingsController : MonoBehaviour
 		AppRoot.Instance.ShowTimerPage();
 	}
 
-
-	private void UpdateInput()
+	public void OnConfirmPreset(PresetController preset)
 	{
+		SelectedPreset = null;
+
+		preset.HideEditButton ();
 	}
 
+	public void OnRemovePreset(PresetController preset)
+	{
+		ReinitPresetContainer ();
+	}
+
+	private void CreateNewPreset(string name)
+	{
+		Timer.Config config = AppRoot.Instance.Timer.CreateNewConfig ();
+
+		config.Name = name;
+
+		AppRoot.Instance.Timer.Presets.Add (config);
+
+
+		GameObject presetGo = Instantiate(presetPrefab) as GameObject;
+		presetGo.transform.parent = presetContainer;
+		
+		PresetController presetController = presetGo.transform.GetComponent<PresetController>();
+		
+		presetController.ExtText.SetTextKey(config.Name);
+		presetController.PresetName = config.Name;
+		presetController.name = config.Name;
+		presetController.Removable = true;
+
+
+		SelectPreset (presetController);
+	}
+
+	void SelectPreset(PresetController presetController)
+	{
+		if (SelectedPreset != null)
+		{
+			SelectedPreset.HideEditButton();
+		}
+
+		SelectedPreset = presetController;
+	
+		SelectedPreset.Hightlight ();
+		
+	}
+	
 }

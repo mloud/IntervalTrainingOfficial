@@ -11,6 +11,8 @@ namespace core
 		{
 			public string Id { get { return gameObject.name; } }
 	
+			protected virtual void OnEnable()
+			{}
 		}
 	}
 }

@@ -6,6 +6,7 @@ namespace core
 	{
 		public core.ui.UIManager UIManager { get; private set; }
 
+		public core.Save Save { get; protected set; }
 
 		void Awake()
 		{

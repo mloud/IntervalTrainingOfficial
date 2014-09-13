@@ -43,7 +43,8 @@ public class Timer : MonoBehaviour
 		public float Duration() { return hours * 3600 + minutes * 60 + seconds; }
 	}
 
-
+	[SerializeField]
+	private Config newConfig;
 
 	[System.Serializable]
 	public class Config
@@ -61,6 +62,7 @@ public class Timer : MonoBehaviour
 		public bool LenghtFromMusic;
 		public bool LoopMusic;
 		public bool Enabled;
+		public bool Removable = true;
 	
 		public Config Clone()
 		{
@@ -493,6 +495,16 @@ public class Timer : MonoBehaviour
 			Debug.Log("Interval: " + i + " " + Cfg.Intervals[i].hours.ToString() + " : " +  Cfg.Intervals[i].minutes.ToString() + " : " + Cfg.Intervals[i].seconds.ToString());
 		}
 
+	}
+
+
+	public Config CreateNewConfig()
+	{
+		Config config = newConfig.Clone ();
+
+		config.Order = Presets.Count;
+
+		return config;
 	}
 
 

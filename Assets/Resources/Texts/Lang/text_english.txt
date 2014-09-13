@@ -64,3 +64,11 @@ STR_CONTINUE_DEMO
 Continue with demo
 STR_DEMO
 Demo
+STR_ADD_NEW
+Add new
+STR_NEW
+New
+STR_TRAINING_NAME
+Training name
+STR_TRAINING_EXISTS
+Training with this name already exists. Choose a different one.

@@ -50,7 +50,14 @@ namespace core
 				{
 					textKey = key;
 
-					TextValue = TextManager.Instance.Get (key, tokenKey, tokenValue);
+					if (key.Contains("STR_"))
+					{
+						TextValue = TextManager.Instance.Get (key, tokenKey, tokenValue);
+					}
+					else
+					{
+						TextValue = key;
+					}
 
 					if (toUpper)
 					{

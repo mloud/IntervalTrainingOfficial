@@ -16,11 +16,15 @@ public class MyDebug : MonoBehaviour {
 		if (!enabled)
 			return;
 		
-		int screenButtonHeight	= Screen.height / 8;
-		
-		if(GUI.Button(new Rect(0,0,Screen.width,screenButtonHeight), "CaptureScreen"))
+
+		if(GUILayout.Button("CaptureScreen"))
 		{
 			AppRoot.Instance.StartCoroutine(CaptureScreen(this));
+		}
+
+		if(GUILayout.Button("RestorePresets"))
+		{
+			(AppRoot.Instance.Save as trn.CustomSave).RestorePresets();
 		}
 	}
 

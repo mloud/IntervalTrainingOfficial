@@ -5,9 +5,6 @@ using System.Collections.Generic;
 
 public class AppRoot : core.AppRootBase 
 {
-
-
-
 	[SerializeField]
 	RectTransform pnlTimer;
 
@@ -52,6 +49,11 @@ public class AppRoot : core.AppRootBase
 		// run in 20 fps
 		UnityEngine.Application.targetFrameRate = 20;
 		UnityEngine.Application.runInBackground = true;
+
+		Save = new trn.CustomSave ();
+
+		(Save as trn.CustomSave).LoadPresets ();
+
 	}
 
 
@@ -83,6 +85,12 @@ public class AppRoot : core.AppRootBase
 		string dataPath = UnityEngine.Application.dataPath;
 	
 
+
+		if (core.Config.Demo.Enabled)
+		{
+			UIManager.OpenDialog(trn.ui.DialogDef.DlgDemoVersion);
+		}
+
 		Debug.Log(dataPath);
 	}
 	
@@ -98,6 +106,25 @@ public class AppRoot : core.AppRootBase
 		}
 	}
 
+
+	private bool CheckDemoRestriction(/*Timer.Config originalConfig*/)
+	{
+		if (core.Config.Demo.Enabled)
+		{
+			if (AppRoot.Instance.Timer.Duration() > core.Config.Demo.TimeLimit)
+			{
+				//AppRoot.Instance.Timer.Cfg = originalConfig;
+				
+				// todo show dialog
+				AppRoot.Instance.UIManager.OpenDialog (trn.ui.DialogDef.DlgDemoVersion);
+
+				return false;
+			}
+		}
+
+
+		return true;
+	}
 
 	public void PauseTimer()
 	{
@@ -134,8 +161,12 @@ public class AppRoot : core.AppRootBase
 	{
 		if (Timer.CurrentState == Timer.State.Stopped)
 		{
-			Screen.sleepTimeout = SleepTimeout.NeverSleep;
-			Timer.Run();
+
+			if (CheckDemoRestriction())
+			{
+				Screen.sleepTimeout = SleepTimeout.NeverSleep;
+				Timer.Run();
+			}
 		}
 		else if (Timer.CurrentState == Timer.State.Paused)
 		{
@@ -227,6 +258,65 @@ public class AppRoot : core.AppRootBase
 	{
 		UIManager.CloseDialog (trn.ui.DialogDef.DlgDemoVersion);
 	}
+
+	public void OnRemovePreset(PresetController presetController)
+	{
+		Destroy (presetController.gameObject);
+
+
+		// set as not enabled
+		int index = Timer.Presets.FindIndex (x => x.Name == presetController.name);
+
+		if (index != -1)
+		{
+			Timer.Presets.RemoveAt(index);
+		}
+
+		(Save as trn.CustomSave).SavePresets ();
+
+		pnlSettingsController.OnRemovePreset (presetController);
+
+	}
+
+	public void OnConfirmPreset(PresetController presetController)
+	{
+		Timer.Config config = Timer.Presets.Find (x => x.Name == presetController.name);
+
+		config.SetFrom (Timer.Cfg);
+
+		(Save as trn.CustomSave).SavePresets ();
+
+		pnlSettingsController.OnConfirmPreset (presetController);
+
+	}
+
+
+	public void OnTrainingNameConfirm(Text textWithName)
+	{
+
+		// already exists
+		if (Timer.Presets.Find(x=>x.Name == textWithName.text) != null)
+		{
+			UIManager.OpenDialog(trn.ui.DialogDef.DlgTrainingAlreadyExists);
+		}
+		// add
+		else
+		{
+			pnlSettingsController.AddNewPreset(textWithName.text);
+			UIManager.CloseDialog (trn.ui.DialogDef.DlgTrainingName);
+		}
+	}
+
+	public void OnTrainingAlreadyExist()
+	{
+		UIManager.CloseDialog (trn.ui.DialogDef.DlgTrainingAlreadyExists);
+	}
+
+	public void OnTrainingNameCancel()
+	{
+		UIManager.CloseDialog (trn.ui.DialogDef.DlgTrainingName);
+	}
+
 
 
 }
