@@ -54,7 +54,7 @@ public class SettingsController : MonoBehaviour
 	// Update is called once per frame
 	void Update () 
 	{
-		txtTime.text = AppRoot.Instance.Timer.DurationFormatted(false);
+		txtTime.text = AppRoot.Instance.Timer.TotalDurationFormatted(false);
 	
 		//Debug.Log ("SEL: " + (SelectedPreset == null ? "null" : SelectedPreset.name));
 	

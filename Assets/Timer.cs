@@ -3,7 +3,7 @@ using System.Collections;
 using System;
 using System.Collections.Generic;
 using System.Text;
-
+using System.Diagnostics;
 
 
 public class Timer : MonoBehaviour
@@ -128,9 +128,6 @@ public class Timer : MonoBehaviour
 	public List<Config> Presets;
 
 
-	private float StartTime { get; set; }
-	private float EndTime { get; set; }
-
 	public TimerStartedDelegate TimerStarted { get; set; }
 	public TimerEndedDelegate TimerEnded { get; set; }
 	public TimerPauseDelegate TimerPause { get; set; }
@@ -143,19 +140,15 @@ public class Timer : MonoBehaviour
 
 	private StringBuilder StringBuilder { get; set; }
 
+	private Stopwatch MainStopwatch { get; set; } 
+	private Stopwatch IntervalStopwatch { get; set; }
 
 	public class IntervalState
 	{
-		public float StartTime { get { return _startTime; } set { _startTime = value; }}
-		public float EndTime { get { return _endTime; } set {_endTime = value; ReInit(); }}
-	
 		public List<float> NoticeTicks { get; set; }
 
 		public int Index { get; set; }
 		public int Round { get; set; }
-
-		private float _startTime;
-		private float _endTime;
 
 		public IntervalState(int noticeTicksCount)
 		{
@@ -163,14 +156,6 @@ public class Timer : MonoBehaviour
 			for (int i = 0; i < noticeTicksCount; ++i)
 			{
 				NoticeTicks.Add(0);
-			}
-		}
-
-		public void ReInit()
-		{
-			for ( int i = 0; i < NoticeTicks.Count; ++i)
-			{
-				NoticeTicks[i] = EndTime - (NoticeTicks.Count - i - 1);
 			}
 		}
 	}
@@ -192,6 +177,9 @@ public class Timer : MonoBehaviour
 						return 0;
 				});
 
+
+		MainStopwatch = new Stopwatch ();
+		IntervalStopwatch = new Stopwatch ();
 	}
 
 
@@ -199,13 +187,8 @@ public class Timer : MonoBehaviour
 	{
 		if (CurrentState == State.Running)
 		{
-			EndTime = StartTime + Duration();
-
-			
-			float timeNow = Time.time;
-
 			// Check for end
-			if (timeNow > EndTime)
+			if (MainStopwatch.Elapsed.TotalSeconds >=  Duration())
 			{
 				// call end delegates
 				if (TimerEnded != null)
@@ -220,7 +203,7 @@ public class Timer : MonoBehaviour
 				for (int i = 0; i < CurrentIntervalState.NoticeTicks.Count; ++i)
 				{
 					float noticeTime = CurrentIntervalState.NoticeTicks[i];
-					if (noticeTime > 0 && Time.time > noticeTime)
+					if (noticeTime > 0 && IntervalStopwatch.Elapsed.TotalSeconds > noticeTime)
 					{
 						CurrentIntervalState.NoticeTicks[i] = -1;
 						
@@ -233,7 +216,8 @@ public class Timer : MonoBehaviour
 				
 				
 				// Check for interval end
-				if (timeNow > CurrentIntervalState.EndTime)
+				//if (timeNow > CurrentIntervalState.EndTime)
+				if (IntervalStopwatch.Elapsed.TotalSeconds >= Cfg.Intervals[CurrentIntervalState.Index].Duration())
 				{
 					if (IntervalEnded != null)
 					{
@@ -242,6 +226,9 @@ public class Timer : MonoBehaviour
 
 					SetNextInterval();
 
+					IntervalStopwatch.Reset ();
+					IntervalStopwatch.Start();
+					
 					if (IntervalStarted != null)
 					{
 						IntervalStarted(Cfg.Intervals[CurrentIntervalState.Index]);
@@ -257,19 +244,18 @@ public class Timer : MonoBehaviour
 	}
 	public void Run()
 	{
-		Time.timeScale = 1;
-
 		CurrentState = State.Running;
 
+		MainStopwatch.Reset ();
+		MainStopwatch.Start ();
 
-		StartTime = Time.time;
-
-	
+		IntervalStopwatch.Reset ();
+		IntervalStopwatch.Start ();
 	
 		CurrentIntervalState.Index = 0;
-		CurrentIntervalState.StartTime = StartTime;
-		CurrentIntervalState.EndTime = StartTime + Cfg.Intervals[CurrentIntervalState.Index].Duration();
 		CurrentIntervalState.Round = 0;
+
+		SetNoticeTicksForCurrentInterval ();
 
 		if (IntervalStarted != null)
 		{
@@ -287,8 +273,10 @@ public class Timer : MonoBehaviour
 	{
 		CurrentState = State.Stopped;
 
-		StartTime = -1;
 		CurrentIntervalState.Index = 0;
+
+		MainStopwatch.Reset ();
+		IntervalStopwatch.Reset ();
 
 		if (TimerReset != null)
 		{
@@ -304,14 +292,25 @@ public class Timer : MonoBehaviour
 			CurrentIntervalState.Index = Cfg.RepeatFromIndex;
 		}
 
-		CurrentIntervalState.StartTime = CurrentIntervalState.EndTime;
-		CurrentIntervalState.EndTime = CurrentIntervalState.StartTime + Cfg.Intervals[CurrentIntervalState.Index].Duration();
 	
 		if (CurrentIntervalState.Index > Cfg.RepeatFromIndex)
 			CurrentIntervalState.Round++;
+
+		SetNoticeTicksForCurrentInterval ();
 	}
-	
-	public float ElapsedTime()
+
+	private void SetNoticeTicksForCurrentInterval()
+	{
+		float duration = CurrentIntervalDuration (); 
+		int noticeCount = CurrentIntervalState.NoticeTicks.Count;
+
+		for ( int i = 0; i < noticeCount; ++i)
+		{
+			CurrentIntervalState.NoticeTicks[i] = duration - (noticeCount - i - 1);
+		}
+	}
+
+	public float TotalElapsedTime()
 	{
 		float result = 0;
 
@@ -321,42 +320,37 @@ public class Timer : MonoBehaviour
 		}
 		else
 		{
-			result = Mathf.Min (Duration(), Time.time - StartTime);
+			result = (float)MainStopwatch.Elapsed.TotalSeconds;
 		}
 
 		return result;
 	}
 
-	public float RestTime()
+	public float TotalRestTime()
 	{
-		return Duration() - ElapsedTime();
+		return Duration() - TotalElapsedTime();
 	}
 
-	public string RestTimeFormatted(bool useMillis)
+	public string TotalRestTimeFormatted(bool useMillis)
 	{
-		return GetFormattedTime(RestTime(), useMillis);
+		return GetFormattedTime(TotalRestTime(), useMillis);
 	}
 
 
-	public string ElapsedTimeFormatted(bool useMillis)
+	public string TotalElapsedTimeFormatted(bool useMillis)
 	{
-		return GetFormattedTime(ElapsedTime(), useMillis);
+		return GetFormattedTime(TotalElapsedTime(), useMillis);
 	}
 
-	public string DurationFormatted(bool useMill)
+	public string TotalDurationFormatted(bool useMill)
 	{
 		return GetFormattedTime(Duration(), useMill);
 	}
 
 
-	public float CurrentIntervalEndTime()
-	{
-		return CurrentIntervalState.EndTime;
-	}
-
 	public float CurrentIntervalDuration()
 	{
-		return CurrentState == State.Stopped ? Cfg.Intervals [CurrentIntervalState.Index].Duration () : CurrentIntervalState.EndTime - CurrentIntervalState.StartTime;
+		return Cfg.Intervals [CurrentIntervalState.Index].Duration ();
 	}
 
 	public string GetFormattedTime(float timeSec, bool useMillis = true, bool showZeroHours = false, bool showZeroMinutes = false)
@@ -419,12 +413,12 @@ public class Timer : MonoBehaviour
 
 	public float CurrentIntervalElapsedTime()
 	{
-		return  CurrentState == State.Stopped ? 0 : Time.time - CurrentIntervalState.StartTime;
+		return  CurrentState == State.Stopped ? 0 : (float)IntervalStopwatch.Elapsed.TotalSeconds;
 	}
 
 	public float CurrentIntervalRestTime()
 	{
-		return  CurrentState == State.Stopped ? CurrentIntervalDuration() : CurrentIntervalEndTime() - Time.time;
+		return  CurrentState == State.Stopped ? CurrentIntervalDuration () : CurrentIntervalDuration () - (float)IntervalStopwatch.Elapsed.TotalSeconds;
 	}
 
 	public string CurrentIntervalRestTimeFormatted(bool useMillis)
@@ -447,7 +441,10 @@ public class Timer : MonoBehaviour
 	public void Pause()
 	{
 		CurrentState = State.Paused;
-		Time.timeScale = 0;
+		//Time.timeScale = 0;
+
+		MainStopwatch.Stop ();
+		IntervalStopwatch.Stop ();
 
 		if (TimerPause != null)
 		{
@@ -460,9 +457,10 @@ public class Timer : MonoBehaviour
 	{
 	
 		CurrentState = State.Running;
-		Time.timeScale = 1;
-
-
+		//Time.timeScale = 1;
+		MainStopwatch.Start ();
+		IntervalStopwatch.Start ();
+		
 		if (TimerUnPause != null)
 		{
 			TimerUnPause(Cfg.Intervals[CurrentIntervalState.Index]);

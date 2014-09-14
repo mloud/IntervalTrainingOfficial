@@ -95,15 +95,15 @@ public class TimerVisualController : MonoBehaviour {
 			SetTimeTextInLabel(lblIntervalElapsed, TimerRef.CurrentIntervalElapsedTimeFormatted(false));
 			SetTimeTextInLabel(lblIntervalRest, TimerRef.CurrentIntervalRestTimeFormatted(false));
 
-			SetTimeTextInLabel(lblTimeElapsed, TimerRef.ElapsedTimeFormatted(false));
-			SetTimeTextInLabel(lblTimeDuration, TimerRef.DurationFormatted(false));
-			SetTimeTextInLabel(lblTimeRest, TimerRef.RestTimeFormatted(false));
+			SetTimeTextInLabel(lblTimeElapsed, TimerRef.TotalElapsedTimeFormatted(false));
+			SetTimeTextInLabel(lblTimeDuration, TimerRef.TotalDurationFormatted(false));
+			SetTimeTextInLabel(lblTimeRest, TimerRef.TotalRestTimeFormatted(false));
 
 
 			txtRound.text = TimerRef.CurrentRound().ToString();
 			txtRoundCount.text = TimerRef.RoundCount().ToString();
 
-			progBarMainTimer.Set (1 - TimerRef.ElapsedTime() / TimerRef.Duration());
+			progBarMainTimer.Set (1 - TimerRef.TotalElapsedTime() / TimerRef.Duration());
 			progBarIntervalTimer.Set (1 - TimerRef.CurrentIntervalElapsedTime() / TimerRef.CurrentIntervalDuration());
 
 
