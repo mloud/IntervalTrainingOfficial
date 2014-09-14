@@ -51,7 +51,6 @@ public class SettingsController : MonoBehaviour
 	void Update () 
 	{
 		txtTime.text = AppRoot.Instance.Timer.DurationFormatted(false);
-
 	}
 
 	public void AddNewPreset(string name)

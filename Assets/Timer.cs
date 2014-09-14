@@ -4,6 +4,8 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 
+
+
 public class Timer : MonoBehaviour
 {
 	public enum State
@@ -261,6 +263,7 @@ public class Timer : MonoBehaviour
 
 
 		StartTime = Time.time;
+
 	
 	
 		CurrentIntervalState.Index = 0;
@@ -455,6 +458,7 @@ public class Timer : MonoBehaviour
 
 	public void UnPause()
 	{
+	
 		CurrentState = State.Running;
 		Time.timeScale = 1;
 
@@ -492,7 +496,7 @@ public class Timer : MonoBehaviour
 
 		for (int i = 0; i < Cfg.Intervals.Count; ++i)
 		{
-			Debug.Log("Interval: " + i + " " + Cfg.Intervals[i].hours.ToString() + " : " +  Cfg.Intervals[i].minutes.ToString() + " : " + Cfg.Intervals[i].seconds.ToString());
+			core.dbg.Dbg.Log("Interval: " + i + " " + Cfg.Intervals[i].hours.ToString() + " : " +  Cfg.Intervals[i].minutes.ToString() + " : " + Cfg.Intervals[i].seconds.ToString());
 		}
 
 	}
