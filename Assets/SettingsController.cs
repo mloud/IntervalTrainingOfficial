@@ -15,6 +15,10 @@ public class SettingsController : MonoBehaviour
 	[SerializeField]
 	GameObject presetPrefab;
 
+	[SerializeField]
+	GameObject presetAddNewPrefab;
+
+
 	[System.Serializable]
 	private class NumericClass
 	{
@@ -51,15 +55,22 @@ public class SettingsController : MonoBehaviour
 	void Update () 
 	{
 		txtTime.text = AppRoot.Instance.Timer.DurationFormatted(false);
+	
+		//Debug.Log ("SEL: " + (SelectedPreset == null ? "null" : SelectedPreset.name));
+	
 	}
 
 	public void AddNewPreset(string name)
 	{
-		PresetController presetController = CreateNewPreset(name);
+		core.dbg.Dbg.Log ("SettingsController.AddNewPreset() " + name);
+
+		/*PresetController presetController = */ CreateNewPreset(name);
 
 		FillPresets();
 
-		presetController.OnClick ();
+
+		OnPresetClick (presetContainer.FindChild (name).GetComponent<PresetController> ());
+		//presetController.OnClick ();
 	}
 
 	public void OnPresetClick(PresetController preset)
@@ -68,10 +79,7 @@ public class SettingsController : MonoBehaviour
 
 		if (preset.PresetName == "ADD_NEW")
 		{
-
 			AppRoot.Instance.UIManager.OpenDialog(trn.ui.DialogDef.DlgTrainingName);
-
-
 		}
 		else
 		{
@@ -170,7 +178,7 @@ public class SettingsController : MonoBehaviour
 
 		{
 			// add new one
-			GameObject presetGo = Instantiate(presetPrefab) as GameObject;
+			GameObject presetGo = Instantiate(presetAddNewPrefab) as GameObject;
 			presetGo.transform.parent = presetContainer;
 			
 			PresetController presetController = presetGo.transform.GetComponent<PresetController>();
@@ -319,7 +327,7 @@ public class SettingsController : MonoBehaviour
 		ReinitPresetContainer ();
 	}
 
-	private PresetController CreateNewPreset(string name)
+	private void CreateNewPreset(string name)
 	{
 		Timer.Config config = AppRoot.Instance.Timer.CreateNewConfig ();
 
@@ -328,30 +336,23 @@ public class SettingsController : MonoBehaviour
 		AppRoot.Instance.Timer.Presets.Add (config);
 
 
-		GameObject presetGo = Instantiate(presetPrefab) as GameObject;
-		presetGo.transform.parent = presetContainer;
-		
-		PresetController presetController = presetGo.transform.GetComponent<PresetController>();
-		
-		presetController.ExtText.SetTextKey(config.Name);
-		presetController.PresetName = config.Name;
-		presetController.name = config.Name;
-		presetController.Removable = true;
-	
-		return presetController;	
+//		GameObject presetGo = Instantiate(presetPrefab) as GameObject;
+//
+//		PresetController presetController = presetGo.transform.GetComponent<PresetController>();
+//		
+//		presetController.ExtText.SetTextKey(config.Name);
+//		presetController.PresetName = config.Name;
+//		presetController.name = config.Name;
+//		presetController.Removable = true;
+//	
+//		return presetController;	
 	}
 
 	void SelectPreset(PresetController presetController)
 	{
-		if (SelectedPreset != null)
-		{
-			SelectedPreset.Deselect();
-		}
-
 		SelectedPreset = presetController;
 	
 		SelectedPreset.Hightlight ();
-		
 	}
 	
 }

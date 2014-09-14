@@ -1,8 +1,9 @@
 fileFormatVersion: 2
-guid: c8963014fca7d4f0e8e235ef187b0243
+guid: 49f4ce3e78aea40fcb210955c287710d
 TextureImporter:
   fileIDToRecycleName:
-    21300000: nineSlice 1
+    21300000: addNew 1
+    21300002: addNew
   serializedVersion: 2
   mipmaps:
     mipMapMode: 0
@@ -37,7 +38,7 @@ TextureImporter:
   spriteMeshType: 1
   alignment: 0
   spritePivot: {x: .5, y: .5}
-  spriteBorder: {x: 10, y: 10, z: 10, w: 10}
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
   spritePixelsToUnits: 100
   alphaIsTransparency: 1
   textureType: 8

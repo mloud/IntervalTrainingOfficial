@@ -106,8 +106,6 @@ public class PresetController : MonoBehaviour
 			else
 			{
 				AppRoot.Instance.OnPresetClick (this);
-
-				OnRemoveModeEnd();
 			}
 		}
 
@@ -132,11 +130,9 @@ public class PresetController : MonoBehaviour
 		AppRoot.Instance.OnRemovePreset (this);
 	}
 
-	public void OnConfirm()
+	public void OnConfirmEdit()
 	{
 		AppRoot.Instance.OnConfirmPreset (this);
-
-
 	}
 
 	public void ShowEditButton()
