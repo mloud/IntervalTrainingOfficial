@@ -18,6 +18,11 @@ public class SettingsController : MonoBehaviour
 	[SerializeField]
 	GameObject presetAddNewPrefab;
 
+	[SerializeField]
+	Scrollbar presetScrollBar;
+
+	[SerializeField]
+	Toggle soundToggle;
 
 	[System.Serializable]
 	private class NumericClass
@@ -44,7 +49,7 @@ public class SettingsController : MonoBehaviour
 
 	private PresetController SelectedPreset { get; set; }
 
-
+	private bool InitInprogress { get; set; }
 
 	// Use this for initialization
 	void Awake ()
@@ -88,13 +93,15 @@ public class SettingsController : MonoBehaviour
 			Init ();
 
 			SelectPreset (preset);
-
 		}
 	}
 
-	
+
 	public void Init()
 	{
+
+		InitInprogress = true;
+
 		ShowNumericObjects (true);
 
 	
@@ -138,6 +145,10 @@ public class SettingsController : MonoBehaviour
 		numObjRounds.NumItems[0].OnValueChanged = OnRounds;
 
 
+		// sound
+		soundToggle.isOn = AppRoot.Instance.Timer.Cfg.Sound;
+
+		InitInprogress = false;
 	}
 
 	private void ShowNumericObjects(bool show)
@@ -290,6 +301,8 @@ public class SettingsController : MonoBehaviour
 		Init();
 	
 		FillPresets ();
+
+		presetScrollBar.value = 0;
 	}
 
 	void OnDisable()
@@ -308,6 +321,18 @@ public class SettingsController : MonoBehaviour
 		SelectedPreset = null;
 
 		preset.Deselect ();
+	}
+
+	public void OnSoundToggle(Toggle toggle)
+	{
+		if(!InitInprogress)
+		{
+
+			AppRoot.Instance.Timer.Cfg.Sound = toggle.isOn;
+
+			if (SelectedPreset)
+				SelectedPreset.ShowEditButton ();
+		}
 	}
 
 	public void DeselectAll()

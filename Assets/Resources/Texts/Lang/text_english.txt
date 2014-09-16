@@ -72,3 +72,5 @@ STR_TRAINING_NAME
 Training name
 STR_TRAINING_EXISTS
 Training with this name already exists. Choose a different one.
+STR_SOUND
+Sound

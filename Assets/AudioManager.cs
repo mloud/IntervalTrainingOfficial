@@ -212,6 +212,9 @@ public class AudioManager : MonoBehaviour, IAudioManager
 	////   Delegates   ////
 	public void OnTick(int index, int count)
 	{
+		if (!TimerConfig.Sound)
+			return;
+
 		//MusicDb.EffectCategoryType tick = index == count - 1 ? MusicDb.EffectCategoryType.TickLong : MusicDb.EffectCategoryType.Tick;
 
 		//EffectAudioSource.clip = AppRoot.Instance.MusicDb.GetEffect(tick);
@@ -254,8 +257,11 @@ public class AudioManager : MonoBehaviour, IAudioManager
 
 	public void OnTimerEnded()
 	{
-		EffectAudioSource.clip = AppRoot.Instance.MusicDb.GetEffect(MusicDb.EffectCategoryType.TimerFinish);
-		EffectAudioSource.Play();
+		if (TimerConfig.Sound)
+		{
+			EffectAudioSource.clip = AppRoot.Instance.MusicDb.GetEffect(MusicDb.EffectCategoryType.TimerFinish);
+			EffectAudioSource.Play();
+		}
 
 		Pause();
 	}

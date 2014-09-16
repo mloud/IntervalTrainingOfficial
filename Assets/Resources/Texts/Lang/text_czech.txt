@@ -71,4 +71,6 @@ Nový
 STR_TRAINING_NAME
 Pojmenuj trénink
 STR_TRAINING_EXISTS
-Trénink s tímto jménem již existuje. Zvolte jiné.
+Trénink s tímto jménem již existuje. Zvolte jiné jméno.
+STR_SOUND
+Zvuk

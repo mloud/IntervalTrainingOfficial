@@ -48,7 +48,7 @@ public class AppRoot : core.AppRootBase
 
 		// run in 20 fps
 		UnityEngine.Application.targetFrameRate = 30;
-		UnityEngine.Application.runInBackground = true;
+		//UnityEngine.Application.runInBackground = true;
 
 		Save = new trn.CustomSave ();
 
@@ -321,6 +321,14 @@ public class AppRoot : core.AppRootBase
 		UIManager.CloseDialog (trn.ui.DialogDef.DlgTrainingName);
 	}
 
+	
+	protected override void OnPause()
+	{
+		if (Timer.CurrentState == Timer.State.Running)
+		{
+			PauseTimer();
+		}
 
-
+	}
+	
 }

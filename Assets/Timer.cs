@@ -65,7 +65,8 @@ public class Timer : MonoBehaviour
 		public bool LoopMusic;
 		public bool Enabled;
 		public bool Removable = true;
-	
+		public bool Sound = true;
+
 		public Config Clone()
 		{
 			Config config = new Config ();
@@ -79,6 +80,7 @@ public class Timer : MonoBehaviour
 			config.LenghtFromMusic = LenghtFromMusic;
 			config.LoopMusic = LoopMusic;
 			config.Enabled = Enabled;
+			config.Sound = Sound;
 
 			config.Intervals = new List<IntervalDefinition> ();
 
@@ -99,6 +101,7 @@ public class Timer : MonoBehaviour
 			MusicName = config.MusicName;
 			LenghtFromMusic = config.LenghtFromMusic;
 			LoopMusic = config.LoopMusic;
+			Sound = config.Sound;
 
 
 			Intervals = new List<IntervalDefinition>(config.Intervals.Count);
@@ -290,11 +293,14 @@ public class Timer : MonoBehaviour
 		if (CurrentIntervalState.Index == Cfg.Intervals.Count)
 		{
 			CurrentIntervalState.Index = Cfg.RepeatFromIndex;
+			CurrentIntervalState.Round++;
+		}
+		else if (CurrentIntervalState.Index == Cfg.RepeatFromIndex)
+		{
+			CurrentIntervalState.Round++;
 		}
 
 	
-		if (CurrentIntervalState.Index > Cfg.RepeatFromIndex)
-			CurrentIntervalState.Round++;
 
 		SetNoticeTicksForCurrentInterval ();
 	}
@@ -433,7 +439,7 @@ public class Timer : MonoBehaviour
 
 	public int CurrentRound()
 	{
-		return CurrentIntervalState.Round / 2 + 1;
+		return CurrentIntervalState.Round;
 	}
 
 
