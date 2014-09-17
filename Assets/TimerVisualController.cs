@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections.Generic;
 using UnityEngine.UI;
+using System.Collections;
 
 public class TimerVisualController : MonoBehaviour {
 
@@ -54,6 +55,7 @@ public class TimerVisualController : MonoBehaviour {
 	private Color InactiveIntervalImageColor;
 	private float DstPausedColorAlpha;
 
+	private float RefreshTimer { get; set; }
 
 	public Timer TimerRef { get; set; }
 
@@ -65,6 +67,7 @@ public class TimerVisualController : MonoBehaviour {
 	void Start ()
 	{
 		InactiveIntervalImageColor = imgIntervalImage.color;
+
 	}
 
 
@@ -86,28 +89,42 @@ public class TimerVisualController : MonoBehaviour {
 		label.text = text;
 	}
 
+	private void UpdateTexts()
+	{
+		if (TimerRef != null) 
+		{
+				SetTimeTextInLabel (lblIntervalDuration, TimerRef.CurrentIntervalDurationFormatted (false));
+				SetTimeTextInLabel (lblIntervalElapsed, TimerRef.CurrentIntervalElapsedTimeFormatted (false));
+				SetTimeTextInLabel (lblIntervalRest, TimerRef.CurrentIntervalRestTimeFormatted (false));
+		
+				SetTimeTextInLabel (lblTimeElapsed, TimerRef.TotalElapsedTimeFormatted (false));
+				SetTimeTextInLabel (lblTimeDuration, TimerRef.TotalDurationFormatted (false));
+				SetTimeTextInLabel (lblTimeRest, TimerRef.TotalRestTimeFormatted (false));
+		
+		
+				txtRound.text = TimerRef.CurrentRound ().ToString ();
+				txtRoundCount.text = TimerRef.RoundCount ().ToString ();
+
+		}
+	}
+
 	void Update () 
 	{
 		if (TimerRef != null)
 		{
 
-			SetTimeTextInLabel(lblIntervalDuration, TimerRef.CurrentIntervalDurationFormatted(false));
-			SetTimeTextInLabel(lblIntervalElapsed, TimerRef.CurrentIntervalElapsedTimeFormatted(false));
-			SetTimeTextInLabel(lblIntervalRest, TimerRef.CurrentIntervalRestTimeFormatted(false));
+			if (Time.time > RefreshTimer) 
+			{
+				UpdateTexts();
+				RefreshTimer = Time.time + 1.0f;
+			}
 
-			SetTimeTextInLabel(lblTimeElapsed, TimerRef.TotalElapsedTimeFormatted(false));
-			SetTimeTextInLabel(lblTimeDuration, TimerRef.TotalDurationFormatted(false));
-			SetTimeTextInLabel(lblTimeRest, TimerRef.TotalRestTimeFormatted(false));
-
-
-			txtRound.text = TimerRef.CurrentRound().ToString();
-			txtRoundCount.text = TimerRef.RoundCount().ToString();
-
+		
 			progBarMainTimer.Set (1 - TimerRef.TotalElapsedTime() / TimerRef.Duration());
 			progBarIntervalTimer.Set (1 - TimerRef.CurrentIntervalElapsedTime() / TimerRef.CurrentIntervalDuration());
+			
 
-
-
+			
 			// timer is running
 			if (TimerRef.CurrentState == Timer.State.Running)
 			{
@@ -146,12 +163,16 @@ public class TimerVisualController : MonoBehaviour {
 		btnPause.gameObject.SetActive(true);
 
 		txtPaused.gameObject.SetActive (false);
+
+		UpdateTexts ();
 	}
 	
 	public void OnTimerEnded()
 	{
 		btnPlay.gameObject.SetActive(true);
 		btnPause.gameObject.SetActive(false);
+
+		UpdateTexts ();
 	}
 	
 	public void OnTimerPause(Timer.IntervalDefinition intervalDef)
@@ -162,6 +183,9 @@ public class TimerVisualController : MonoBehaviour {
 		DstPausedColorAlpha = 0.2f;
 
 		txtPaused.gameObject.SetActive (true);
+
+
+		UpdateTexts ();
 
 	}
 
@@ -182,6 +206,8 @@ public class TimerVisualController : MonoBehaviour {
 		intervalColor.a = 1;
 
 		txtPaused.gameObject.SetActive (false);
+
+		UpdateTexts ();
 	
 	}
 	
@@ -191,6 +217,8 @@ public class TimerVisualController : MonoBehaviour {
 		btnPause.gameObject.SetActive(false);
 
 		txtPaused.gameObject.SetActive (false);
+
+		UpdateTexts ();
 	}
 
 }

@@ -74,3 +74,5 @@ STR_TRAINING_EXISTS
 Trénink s tímto jménem již existuje. Zvolte jiné jméno.
 STR_SOUND
 Zvuk
+STR_REMOVE_PRESET
+Opravdu chceš odstranit tento přednastavený interval?

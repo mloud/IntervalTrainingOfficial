@@ -19,9 +19,7 @@ public class Utils : MonoBehaviour
 
 	public void OpenFullVersionLink()
 	{
-		Application.OpenURL ("market://details?id=com.MloudWork.IntervalTraining");
-		//Application.OpenURL ("market://details?q=pname:com.MloudWork.IntervalTraining");
-		//Application.OpenURL ("http://unity3d.com/");
+		Application.OpenURL ("market://details?id=com.MloudWork.IntervalTrainingFull");
 	}
 	
 	private IEnumerator OpenFacebookPageCoroutineInternal()

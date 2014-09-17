@@ -17,6 +17,19 @@ namespace trn
 			{
 				extText.SetTextKey ("STR_DEMO_VERSION", "minutes", (core.Config.Demo.TimeLimit / 60).ToString ());
 			}
+		
+			public void OnEnable()
+			{
+				AppRoot.Instance.DemoVersionButton.gameObject.SetActive (false);
+			}
+		
+			public void OnDisable()
+			{
+				AppRoot.Instance.DemoVersionButton.gameObject.SetActive (true);
+			}
+
 		}
+
+
 	}
 }

@@ -9,6 +9,8 @@ namespace core
 	{
 		public class Dialog : MonoBehaviour
 		{
+			public object Paramater { get; set; }
+
 			public string Id { get { return gameObject.name; } }
 	
 			protected virtual void OnEnable()

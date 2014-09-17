@@ -61,6 +61,22 @@ namespace core
 			LoadSupportedLanguages ();
 		}
 
+		public static bool ShowRemovePresetConfirmation()
+		{
+			return !(AppRoot.Instance.Save as trn.CustomSave).HasKey ("DontConfirmPresetRemove");
+		}
+
+		public static void SetConfirmPresetRemove(bool confirm)
+		{
+			if (confirm)
+			{
+				(AppRoot.Instance.Save as trn.CustomSave).RemoveKey("DontConfirmPresetRemove");
+			}
+			else
+			{
+				(AppRoot.Instance.Save as trn.CustomSave).Set("DontConfirmPresetRemove", "true");
+			}
+		}
 
 		private static void LoadSupportedLanguages()
 		{
@@ -74,6 +90,9 @@ namespace core
 			}
 #endif
 		}
+
+
+
 
 	}
 }

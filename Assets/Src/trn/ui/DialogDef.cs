@@ -15,7 +15,7 @@ namespace trn
 			public static string DlgDemoVersion = "DlgDemoVersion";
 			public static string DlgTrainingName = "DlgTrainingName";
 			public static string DlgTrainingAlreadyExists = "DlgTrainingAlreadyExists";
-
+			public static string DlgRemovePreset = "DlgRemovePreset";
 		}
 	}
 }

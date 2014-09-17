@@ -74,3 +74,5 @@ STR_TRAINING_EXISTS
 Training with this name already exists. Choose a different one.
 STR_SOUND
 Sound
+STR_REMOVE_PRESET
+Do you want to remove this preset interval?

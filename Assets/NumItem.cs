@@ -10,6 +10,10 @@ public class NumItem : MonoBehaviour
 	public ValueChangedDelegate OnValueChanged;
 
 	[SerializeField]
+	Animator animator;
+
+	
+	[SerializeField]
 	Text text;
 
 	[SerializeField]
@@ -32,9 +36,20 @@ public class NumItem : MonoBehaviour
 		Refresh ();
 	}
 
+	public void PlayChangeAnim()
+	{
+		//animator.SetTrigger("change");
+	}
+
 	public void OnPlus()
 	{
-		Value = Mathf.Min (maxValue, Value + 1);
+		int newValue = Mathf.Min (maxValue, Value + 1);
+
+		if (newValue != Value)
+		{
+			Value = newValue;
+		}
+
 		Refresh ();
 
 		OnValueChanged (this);
@@ -42,7 +57,12 @@ public class NumItem : MonoBehaviour
 
 	public void OnMinus()
 	{
-		Value = Mathf.Max (minValue, Value - 1);
+		int newValue = Mathf.Max (minValue, Value - 1);
+
+		if (newValue != Value)
+		{
+			Value = newValue;
+		}
 		Refresh ();
 
 		OnValueChanged (this);

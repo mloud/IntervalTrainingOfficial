@@ -213,7 +213,12 @@ public class SettingsController : MonoBehaviour
 	public void OnWarmUpMinutes(NumItem numItem)
 	{
 		Timer.Config config = AppRoot.Instance.Timer.Cfg.Clone ();
+
+		if (!InitInprogress)
+			numItem.PlayChangeAnim ();
 		AppRoot.Instance.Timer.Cfg.Intervals [0].minutes = numItem.Value;
+		AppRoot.Instance.Timer.SetDirtyCurrentIntervalElapsedTime ();
+
 
 		if (SelectedPreset)
 			SelectedPreset.ShowEditButton ();
@@ -225,9 +230,11 @@ public class SettingsController : MonoBehaviour
 	{
 		Timer.Config config = AppRoot.Instance.Timer.Cfg.Clone ();
 
+		if (!InitInprogress)
+			numItem.PlayChangeAnim ();
 		AppRoot.Instance.Timer.Cfg.Intervals [0].seconds = numItem.Value;
-
-
+		AppRoot.Instance.Timer.SetDirtyCurrentIntervalElapsedTime ();
+		
 		if (SelectedPreset)
 			SelectedPreset.ShowEditButton ();
 
@@ -239,9 +246,11 @@ public class SettingsController : MonoBehaviour
 	{
 		Timer.Config config = AppRoot.Instance.Timer.Cfg.Clone ();
 
+		if (!InitInprogress)
+			numItem.PlayChangeAnim ();
 		AppRoot.Instance.Timer.Cfg.Intervals [1].minutes = numItem.Value;
-
-
+		AppRoot.Instance.Timer.SetDirtyCurrentIntervalElapsedTime ();
+		
 		if (SelectedPreset)
 			SelectedPreset.ShowEditButton ();
 
@@ -252,7 +261,10 @@ public class SettingsController : MonoBehaviour
 	{
 		Timer.Config config = AppRoot.Instance.Timer.Cfg.Clone ();
 
+		if (!InitInprogress)
+			numItem.PlayChangeAnim ();
 		AppRoot.Instance.Timer.Cfg.Intervals [1].seconds = numItem.Value;
+		AppRoot.Instance.Timer.SetDirtyCurrentIntervalElapsedTime ();
 
 		if (SelectedPreset)
 			SelectedPreset.ShowEditButton ();
@@ -263,9 +275,12 @@ public class SettingsController : MonoBehaviour
 	public void OnRestMinutes (NumItem numItem)
 	{
 		Timer.Config config = AppRoot.Instance.Timer.Cfg.Clone ();
-
+	
+		if (!InitInprogress)
+			numItem.PlayChangeAnim ();
 		AppRoot.Instance.Timer.Cfg.Intervals [2].minutes = numItem.Value;
-
+		AppRoot.Instance.Timer.SetDirtyCurrentIntervalElapsedTime ();
+		
 		if (SelectedPreset)
 			SelectedPreset.ShowEditButton ();
 
@@ -276,8 +291,11 @@ public class SettingsController : MonoBehaviour
 	{
 		Timer.Config config = AppRoot.Instance.Timer.Cfg.Clone ();
 
+		if (!InitInprogress)
+			numItem.PlayChangeAnim ();
 		AppRoot.Instance.Timer.Cfg.Intervals [2].seconds = numItem.Value;
-
+		AppRoot.Instance.Timer.SetDirtyCurrentIntervalElapsedTime ();
+		
 		if (SelectedPreset)
 			SelectedPreset.ShowEditButton ();
 
@@ -288,8 +306,11 @@ public class SettingsController : MonoBehaviour
 	{
 		Timer.Config config = AppRoot.Instance.Timer.Cfg.Clone ();
 
+		if (!InitInprogress)
+			numItem.PlayChangeAnim ();
 		AppRoot.Instance.Timer.Cfg.RepetitionCount = numItem.Value;
-
+		AppRoot.Instance.Timer.SetDirtyCurrentIntervalElapsedTime ();
+		
 		if (SelectedPreset)
 			SelectedPreset.ShowEditButton ();
 

@@ -23,6 +23,8 @@ public class AppRoot : core.AppRootBase
 	[SerializeField]
 	TimerVisualController TimerController;
 
+	[SerializeField]
+	public Button DemoVersionButton;
 
 	[SerializeField]
 	public ExcerciseDb ExcerciseDb;
@@ -89,6 +91,10 @@ public class AppRoot : core.AppRootBase
 		if (core.Config.Demo.Enabled)
 		{
 			UIManager.OpenDialog(trn.ui.DialogDef.DlgDemoVersion);
+		}
+		else
+		{
+			DemoVersionButton.gameObject.SetActive(false);
 		}
 
 		Debug.Log(dataPath);
@@ -255,6 +261,15 @@ public class AppRoot : core.AppRootBase
 		Utils.Instance.OpenFullVersionLink ();
 	}
 
+	public void OnDemoButtonClick()
+	{
+		if (Timer.CurrentState == Timer.State.Running)
+		{
+			PauseTimer();
+		}
+		UIManager.OpenDialog (trn.ui.DialogDef.DlgDemoVersion);
+	}
+
 	public void OnDemoVersionContinueDemo()
 	{
 		UIManager.CloseDialog (trn.ui.DialogDef.DlgDemoVersion);
@@ -262,6 +277,16 @@ public class AppRoot : core.AppRootBase
 
 	public void OnRemovePreset(PresetController presetController)
 	{
+		core.ui.Dialog dialog = AppRoot.Instance.UIManager.OpenDialog (trn.ui.DialogDef.DlgRemovePreset);
+		dialog.Paramater = presetController;
+	}
+
+	public void OnRemovePresetConfirmationYes(core.ui.Dialog dialog)
+	{
+		AppRoot.Instance.UIManager.CloseDialog (trn.ui.DialogDef.DlgRemovePreset);
+
+		PresetController presetController = dialog.Paramater as PresetController;
+
 		Destroy (presetController.gameObject);
 
 
@@ -276,8 +301,13 @@ public class AppRoot : core.AppRootBase
 		(Save as trn.CustomSave).SavePresets ();
 
 		pnlSettingsController.OnRemovePreset (presetController);
-
 	}
+
+	public void OnRemovePresetConfirmationNo()
+	{
+		AppRoot.Instance.UIManager.CloseDialog (trn.ui.DialogDef.DlgRemovePreset);
+	}
+
 
 	public void OnConfirmPreset(PresetController presetController)
 	{

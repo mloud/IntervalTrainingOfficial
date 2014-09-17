@@ -23,7 +23,7 @@ namespace core
 				Dialogs = new List<Dialog> ();
 			}
 
-			public void OpenDialog(string dialogId)
+			public Dialog OpenDialog(string dialogId)
 			{
 				Dialog dialog = null;
 				for (int i = 0; i < dialogQueueRoot.childCount; ++i)
@@ -33,13 +33,16 @@ namespace core
 						dialog = dialogQueueRoot.GetChild(i).GetComponent<Dialog>();
 						dialog.gameObject.SetActive(true);
 						if (!Dialogs.Contains(dialog))
+						{
 							Dialogs.Add (dialog);
+						}
 						break;
 					}
 				}
 			
 				dialogQueueRoot.GetChild (0).gameObject.SetActive (true); // activate bg 
 			
+				return dialog;
 				/*
 				core.dbg.Dbg.Assert (DialogFactory != null, "UIManager.OpenDialog(): DialogFactory is null");
 

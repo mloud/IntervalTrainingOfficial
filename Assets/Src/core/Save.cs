@@ -21,5 +21,10 @@ namespace core
 			return PlayerPrefs.GetString(key, null);
 		}
 
+		public void RemoveKey(string key)
+		{
+			PlayerPrefs.DeleteKey (key);
+		}
+
 	}
 }
