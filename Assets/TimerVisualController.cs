@@ -24,6 +24,9 @@ public class TimerVisualController : MonoBehaviour {
 	Text lblIntervalRest;
 
 	[SerializeField]
+	Text lblActualTime;
+
+	[SerializeField]
 	Button btnPlay;
 
 	[SerializeField]
@@ -94,17 +97,18 @@ public class TimerVisualController : MonoBehaviour {
 		if (TimerRef != null) 
 		{
 				SetTimeTextInLabel (lblIntervalDuration, TimerRef.CurrentIntervalDurationFormatted (false));
-				SetTimeTextInLabel (lblIntervalElapsed, TimerRef.CurrentIntervalElapsedTimeFormatted (false));
+				//SetTimeTextInLabel (lblIntervalElapsed, TimerRef.CurrentIntervalElapsedTimeFormatted (false));
 				SetTimeTextInLabel (lblIntervalRest, TimerRef.CurrentIntervalRestTimeFormatted (false));
 		
-				SetTimeTextInLabel (lblTimeElapsed, TimerRef.TotalElapsedTimeFormatted (false));
+				//SetTimeTextInLabel (lblTimeElapsed, TimerRef.TotalElapsedTimeFormatted (false));
 				SetTimeTextInLabel (lblTimeDuration, TimerRef.TotalDurationFormatted (false));
 				SetTimeTextInLabel (lblTimeRest, TimerRef.TotalRestTimeFormatted (false));
 		
 		
 				txtRound.text = TimerRef.CurrentRound ().ToString ();
 				txtRoundCount.text = TimerRef.RoundCount ().ToString ();
-
+				
+				lblActualTime.text = TimerRef.GetActualTime();
 		}
 	}
 

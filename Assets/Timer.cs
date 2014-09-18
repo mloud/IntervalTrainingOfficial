@@ -557,4 +557,10 @@ public class Timer : MonoBehaviour
 	}
 
 
+	public string GetActualTime()
+	{
+		return System.DateTime.Now.ToString("hh:mm");
+	}
+
+
 }
