@@ -76,19 +76,19 @@ public class TimerVisualController : MonoBehaviour {
 
 	void SetTimeTextInLabel(Text label, string text)
 	{
-		float scale = 1.0f;
-
-		if (text.Length > 9)
-		{
-			scale = 0.5f;
-		}
-		else if (text.Length > 6)
-		{
-			scale = 0.7f;
-		}
-
-
-		label.transform.localScale = new Vector3(scale, scale,scale);
+//		float scale = 1.0f;
+//
+//		if (text.Length > 9)
+//		{
+//			scale = 0.5f;
+//		}
+//		else if (text.Length > 6)
+//		{
+//			scale = 0.7f;
+//		}
+//
+//
+//		label.transform.localScale = new Vector3(scale, scale,scale);
 		label.text = text;
 	}
 
@@ -184,7 +184,7 @@ public class TimerVisualController : MonoBehaviour {
 	{
 		btnPlay.gameObject.SetActive(true);
 		btnPause.gameObject.SetActive(false);
-
+		intervalInfoText.gameObject.SetActive (false);
 		DstPausedColorAlpha = 0.2f;
 
 		txtPaused.gameObject.SetActive (true);
@@ -207,7 +207,7 @@ public class TimerVisualController : MonoBehaviour {
 	{
 		btnPlay.gameObject.SetActive(false);
 		btnPause.gameObject.SetActive(true);
-
+		intervalInfoText.gameObject.SetActive (true);
 		// set opaque
 		Color intervalColor = imgIntervalImage.color;
 		intervalColor.a = 1;
@@ -222,7 +222,6 @@ public class TimerVisualController : MonoBehaviour {
 	{
 		btnPlay.gameObject.SetActive(true);
 		btnPause.gameObject.SetActive(false);
-
 		txtPaused.gameObject.SetActive (false);
 
 		intervalInfoText.gameObject.SetActive (false);

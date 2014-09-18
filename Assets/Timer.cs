@@ -559,7 +559,9 @@ public class Timer : MonoBehaviour
 
 	public string GetActualTime()
 	{
-		return System.DateTime.Now.ToString("hh:mm");
+		DateTime dateTime = System.DateTime.Now;
+
+		return (dateTime.Hour < 10 ? "0" : "") + dateTime.Hour+":"+(dateTime.Minute < 10 ? "0" : "") + dateTime.Minute;
 	}
 
 

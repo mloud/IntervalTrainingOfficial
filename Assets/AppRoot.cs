@@ -90,7 +90,7 @@ public class AppRoot : core.AppRootBase
 
 		if (core.Config.Demo.Enabled)
 		{
-			UIManager.OpenDialog(trn.ui.DialogDef.DlgDemoVersion);
+			//UIManager.OpenDialog(trn.ui.DialogDef.DlgDemoVersion);
 		}
 		else
 		{

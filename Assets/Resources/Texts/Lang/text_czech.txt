@@ -76,3 +76,7 @@ STR_SOUND
 Zvuk
 STR_REMOVE_PRESET
 Opravdu chceš odstranit tento přednastavený interval?
+STR_ACTUAL_TIME
+Aktuální čas
+STR_TOTAL
+Total
