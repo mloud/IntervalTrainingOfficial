@@ -163,6 +163,7 @@ public class TimerVisualController : MonoBehaviour {
 		btnPause.gameObject.SetActive(true);
 
 		txtPaused.gameObject.SetActive (false);
+		intervalInfoText.gameObject.SetActive (true);
 
 		UpdateTexts ();
 	}
@@ -171,7 +172,7 @@ public class TimerVisualController : MonoBehaviour {
 	{
 		btnPlay.gameObject.SetActive(true);
 		btnPause.gameObject.SetActive(false);
-
+		intervalInfoText.gameObject.SetActive (false);
 		UpdateTexts ();
 	}
 	
@@ -191,9 +192,11 @@ public class TimerVisualController : MonoBehaviour {
 
 	public void OnIntervalStarted(Timer.IntervalDefinition intervalDef)
 	{
+		intervalInfoText.gameObject.SetActive (true);
 		intervalInfoText.SetTextKey (intervalDef.InfoText);
 
 		txtPaused.gameObject.SetActive (false);
+
 	}
 	
 	public void OnTimerUnPause(Timer.IntervalDefinition intervalDef)
@@ -206,7 +209,7 @@ public class TimerVisualController : MonoBehaviour {
 		intervalColor.a = 1;
 
 		txtPaused.gameObject.SetActive (false);
-
+		intervalInfoText.gameObject.SetActive (true);
 		UpdateTexts ();
 	
 	}
@@ -217,6 +220,8 @@ public class TimerVisualController : MonoBehaviour {
 		btnPause.gameObject.SetActive(false);
 
 		txtPaused.gameObject.SetActive (false);
+
+		intervalInfoText.gameObject.SetActive (false);
 
 		UpdateTexts ();
 	}

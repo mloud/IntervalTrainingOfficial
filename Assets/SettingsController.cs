@@ -378,6 +378,7 @@ public class SettingsController : MonoBehaviour
 		Timer.Config config = AppRoot.Instance.Timer.CreateNewConfig ();
 
 		config.Name = name;
+		config.Id = name;
 
 		AppRoot.Instance.Timer.Presets.Add (config);
 

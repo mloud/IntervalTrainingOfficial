@@ -326,7 +326,7 @@ public class AppRoot : core.AppRootBase
 	{
 
 		// already exists
-		if (Timer.Presets.Find(x=>x.Name == textWithName.text) != null)
+		if (Timer.Presets.Find(x=>x.Id == textWithName.text) != null)
 		{
 			UIManager.OpenDialog(trn.ui.DialogDef.DlgTrainingAlreadyExists);
 		}

@@ -66,6 +66,7 @@ public class Timer : MonoBehaviour
 		public bool Enabled;
 		public bool Removable = true;
 		public bool Sound = true;
+		public string Id;
 
 		public Config Clone()
 		{
@@ -81,6 +82,7 @@ public class Timer : MonoBehaviour
 			config.LoopMusic = LoopMusic;
 			config.Enabled = Enabled;
 			config.Sound = Sound;
+			config.Id = Id;
 
 			config.Intervals = new List<IntervalDefinition> ();
 
@@ -102,6 +104,7 @@ public class Timer : MonoBehaviour
 			LenghtFromMusic = config.LenghtFromMusic;
 			LoopMusic = config.LoopMusic;
 			Sound = config.Sound;
+			Id = config.Id;
 
 
 			Intervals = new List<IntervalDefinition>(config.Intervals.Count);
