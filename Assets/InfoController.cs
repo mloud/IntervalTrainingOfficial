@@ -2,6 +2,7 @@
 using System.Collections;
 using UnityEngine.UI;
 
+
 public class InfoController : MonoBehaviour {
 
 	[SerializeField]
@@ -16,7 +17,7 @@ public class InfoController : MonoBehaviour {
 
 	void Start () 
 	{
-		txtVersion.text = core.TextManager.Instance.Get("STR_VERSION") + ": "+ core.Config.Version;
+		txtVersion.text = core.TextManager.Instance.Get ("STR_VERSION") + ": " + core.Config.Version;
 	}
 	
 	void Update () {

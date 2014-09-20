@@ -79,7 +79,7 @@ Opravdu chceš odstranit tento přednastavený interval?
 STR_ACTUAL_TIME
 Aktuální čas
 STR_TOTAL
-Total
+Celkový čas
 STR_VERSION
 Verze
 STR_LABEL_COOL_DOWN

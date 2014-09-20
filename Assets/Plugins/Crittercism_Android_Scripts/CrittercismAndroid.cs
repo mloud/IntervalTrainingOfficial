@@ -1,4 +1,4 @@
-#define FORCE_DEBUG
+//#define FORCE_DEBUG
 using UnityEngine;
 using System.Collections;
 using System.Runtime.InteropServices;
@@ -93,6 +93,7 @@ public static class CrittercismAndroid
 	
 	public static void EnableDebugLog(bool b)
 	{
+		#if FORCE_DEBUG
 		if(mCrittercismsPlugin == null || _IsPluginInited == false)	{	return;	}
 		
 		try
@@ -101,6 +102,8 @@ public static class CrittercismAndroid
 			_ShowDebugOnOnRelease	= b;
 			
 		}catch(System.Exception e) {	CLog(e.Message); }
+
+#endif
 	}
 	
 //	public static void MarkExceptionType(bool b)
