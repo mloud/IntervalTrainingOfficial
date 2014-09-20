@@ -9,7 +9,8 @@ public class SettingsController : MonoBehaviour
 		Rounds,
 		WarmUp,
 		Work,
-		Rest
+		Rest,
+		CoolDown
 	}
 
 	[SerializeField]
@@ -138,6 +139,18 @@ public class SettingsController : MonoBehaviour
 			numObj.NumItems[0].OnValueChanged = OnRestMinutes;
 			numObj.NumItems[1].OnValueChanged = OnRestSeconds;
 		}
+
+		if (AppRoot.Instance.Timer.Cfg.Intervals.Count > 3)
+		{
+			NumericClass numObj = _numericObjects.Find(x=>x.Type == NumericType.CoolDown);
+			
+			numObj.NumItems[0].SetValue(AppRoot.Instance.Timer.Cfg.Intervals[3].minutes);
+			numObj.NumItems[1].SetValue(AppRoot.Instance.Timer.Cfg.Intervals[3].seconds);
+			
+			numObj.NumItems[0].OnValueChanged = OnCoolDownMinutes;
+			numObj.NumItems[1].OnValueChanged = OnCoolDownSeconds;
+		}
+
 
 		NumericClass numObjRounds = _numericObjects.Find(x=>x.Type == NumericType.Rounds);
 
@@ -299,6 +312,36 @@ public class SettingsController : MonoBehaviour
 		if (SelectedPreset)
 			SelectedPreset.ShowEditButton ();
 
+		//CheckDemo (config);
+	}
+
+	public void OnCoolDownMinutes (NumItem numItem)
+	{
+		Timer.Config config = AppRoot.Instance.Timer.Cfg.Clone ();
+		
+		if (!InitInprogress)
+			numItem.PlayChangeAnim ();
+		AppRoot.Instance.Timer.Cfg.Intervals [3].minutes = numItem.Value;
+		AppRoot.Instance.Timer.SetDirtyCurrentIntervalElapsedTime ();
+		
+		if (SelectedPreset)
+			SelectedPreset.ShowEditButton ();
+		
+		//CheckDemo (config);
+	}
+	
+	public void OnCoolDownSeconds (NumItem numItem)
+	{
+		Timer.Config config = AppRoot.Instance.Timer.Cfg.Clone ();
+		
+		if (!InitInprogress)
+			numItem.PlayChangeAnim ();
+		AppRoot.Instance.Timer.Cfg.Intervals [3].seconds = numItem.Value;
+		AppRoot.Instance.Timer.SetDirtyCurrentIntervalElapsedTime ();
+		
+		if (SelectedPreset)
+			SelectedPreset.ShowEditButton ();
+		
 		//CheckDemo (config);
 	}
 

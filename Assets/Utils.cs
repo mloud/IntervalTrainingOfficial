@@ -49,7 +49,7 @@ public class Utils : MonoBehaviour
 	public void SendEmail ()
 	{
 		string email = "gmloud@gmail.com";
-		string subject = MyEscapeURL("IntervalTrainer");
+		string subject = MyEscapeURL("IntervalTrainer " + core.Config.Version);
 		string body = MyEscapeURL("Don't hesitate to ask, report bugs or propose new functions.");
 		
 		Application.OpenURL("mailto:" + email + "?subject=" + subject + "&body=" + body);

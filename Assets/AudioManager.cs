@@ -223,7 +223,7 @@ public class AudioManager : MonoBehaviour, IAudioManager
 		string intervalName = AppRoot.Instance.Timer.Cfg.Intervals [AppRoot.Instance.Timer.CurrentIntervalState.Index].Name;
 
 		string effectPrefabName = "";
-		if (intervalName == "work")
+		if (intervalName == "work" || intervalName == "cooldown")
 		{
 			effectPrefabName = "WorkIntervalEnd";
 		}
@@ -231,9 +231,13 @@ public class AudioManager : MonoBehaviour, IAudioManager
 		{
 			effectPrefabName = "RestIntervalEnd";
 		}
-		GameObject go = Resources.Load("Audio/Effects/" + effectPrefabName) as GameObject;
-		EffectAudioSource.clip = go.GetComponent<trn.aud.AudioClipList>().AudioClips[index];
-		EffectAudioSource.Play();
+
+		if (effectPrefabName != null)
+		{
+			GameObject go = Resources.Load("Audio/Effects/" + effectPrefabName) as GameObject;
+			EffectAudioSource.clip = go.GetComponent<trn.aud.AudioClipList>().AudioClips[index];
+			EffectAudioSource.Play();
+		}
 
 	}
 

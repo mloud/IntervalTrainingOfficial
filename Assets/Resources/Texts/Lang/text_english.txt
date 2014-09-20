@@ -80,3 +80,9 @@ STR_ACTUAL_TIME
 Actual time
 STR_TOTAL
 Total
+STR_VERSION
+Version
+STR_LABEL_COOL_DOWN
+Cool down
+STR_COOL_DOWN
+Cool down

@@ -57,6 +57,7 @@ public class Timer : MonoBehaviour
 		public int RepetitionCount;
 		public int NoticeTicks;
 		public int RepeatFromIndex;
+		public int RepeatToIndex;
 		public int Order;
 
 		public string Name;
@@ -75,6 +76,7 @@ public class Timer : MonoBehaviour
 			config.RepetitionCount = RepetitionCount;
 			config.NoticeTicks = NoticeTicks;
 			config.RepeatFromIndex = RepeatFromIndex;
+			config.RepeatToIndex = RepeatToIndex;
 			config.Order = Order;
 			config.Name = Name;
 			config.MusicName = MusicName;
@@ -103,8 +105,11 @@ public class Timer : MonoBehaviour
 			MusicName = config.MusicName;
 			LenghtFromMusic = config.LenghtFromMusic;
 			LoopMusic = config.LoopMusic;
+			RepeatToIndex = config.RepeatToIndex;
+			RepeatFromIndex = config.RepeatFromIndex;
 			Sound = config.Sound;
 			Id = config.Id;
+			Name = config.Name;
 
 
 			Intervals = new List<IntervalDefinition>(config.Intervals.Count);
@@ -324,15 +329,26 @@ public class Timer : MonoBehaviour
 	private void SetNextInterval()
 	{
 		CurrentIntervalState.Index++;
-		if (CurrentIntervalState.Index == Cfg.Intervals.Count)
+		if (CurrentIntervalState.Index == Cfg.RepeatToIndex + 1)
 		{
-			CurrentIntervalState.Index = Cfg.RepeatFromIndex;
-			CurrentIntervalState.Round++;
+			if (CurrentIntervalState.Round == Cfg.RepetitionCount)
+			{
+
+			}
+			else
+			{
+				CurrentIntervalState.Index = Cfg.RepeatFromIndex;
+				CurrentIntervalState.Round++;
+			}
+
+
 		}
 		else if (CurrentIntervalState.Index == Cfg.RepeatFromIndex)
 		{
 			CurrentIntervalState.Round++;
 		}
+		
+
 
 	
 		StartntervalElapsed = MainTimerElapsed;
@@ -519,7 +535,7 @@ public class Timer : MonoBehaviour
 	{
 		float timeSum = 0;
 		//TODO
-		for (int i = Cfg.RepeatFromIndex; i < Cfg.Intervals.Count; ++i)
+		for (int i = Cfg.RepeatFromIndex; i <= Cfg.RepeatToIndex; ++i)
 		{
 			timeSum += Cfg.Intervals[i].Duration();
 		}
@@ -531,6 +547,14 @@ public class Timer : MonoBehaviour
 		{
 			timeSum += Cfg.Intervals[i].Duration();
 		}
+
+
+		for (int i = Cfg.RepeatToIndex + 1; i < Cfg.Intervals.Count; ++i) 
+		{
+			timeSum += Cfg.Intervals[i].Duration();
+		}
+
+
 
 		return timeSum;
 	}
@@ -557,11 +581,16 @@ public class Timer : MonoBehaviour
 	}
 
 
-	public string GetActualTime()
+	public string GetActualTime(bool mode24)
 	{
 		DateTime dateTime = System.DateTime.Now;
 
-		return (dateTime.Hour < 10 ? "0" : "") + dateTime.Hour+":"+(dateTime.Minute < 10 ? "0" : "") + dateTime.Minute;
+		if (mode24)
+			return (dateTime.Hour < 10 ? "0" : "") + dateTime.Hour+":"+(dateTime.Minute < 10 ? "0" : "") + dateTime.Minute;
+		else
+		{
+			return dateTime.ToString("hh:mm tt");
+		}
 	}
 
 

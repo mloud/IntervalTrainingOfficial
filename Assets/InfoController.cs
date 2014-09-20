@@ -10,10 +10,13 @@ public class InfoController : MonoBehaviour {
 	[SerializeField]
 	Button btnEmail;
 
+	[SerializeField]
+	Text txtVersion;
 
 
-	void Start () {
-	
+	void Start () 
+	{
+		txtVersion.text = core.TextManager.Instance.Get("STR_VERSION") + ": "+ core.Config.Version;
 	}
 	
 	void Update () {

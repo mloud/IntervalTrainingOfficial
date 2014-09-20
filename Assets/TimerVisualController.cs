@@ -32,6 +32,9 @@ public class TimerVisualController : MonoBehaviour {
 	[SerializeField]
 	Button btnPause;
 
+	[SerializeField]
+	Text txtTrainingName;
+
 
 	[SerializeField]
 	Text txtRound;
@@ -55,16 +58,36 @@ public class TimerVisualController : MonoBehaviour {
 	core.ui.ExtText intervalInfoText;
 
 
+	enum TotalTimeMode
+	{
+		Up,
+		Down,
+		Count
+	}
+
+	enum ActualTimeMode
+	{
+		TwentyFour,
+		AmPm
+	}
+
 	private Color InactiveIntervalImageColor;
 	private float DstPausedColorAlpha;
 
 	private float RefreshTimer { get; set; }
+
+	private TotalTimeMode CurrentTotalTimeMode { get; set; }
+	private ActualTimeMode CurrentActualTimeMode { get; set; }
 
 	public Timer TimerRef { get; set; }
 
 	void Awake()
 	{
 		txtPaused.gameObject.SetActive (false);
+
+		CurrentTotalTimeMode = TotalTimeMode.Down;
+		CurrentActualTimeMode = Application.systemLanguage == SystemLanguage.English ? ActualTimeMode.AmPm : ActualTimeMode.TwentyFour;
+
 	}
 
 	void Start ()
@@ -72,6 +95,7 @@ public class TimerVisualController : MonoBehaviour {
 		InactiveIntervalImageColor = imgIntervalImage.color;
 
 	}
+
 
 
 	void SetTimeTextInLabel(Text label, string text)
@@ -102,13 +126,25 @@ public class TimerVisualController : MonoBehaviour {
 		
 				//SetTimeTextInLabel (lblTimeElapsed, TimerRef.TotalElapsedTimeFormatted (false));
 				SetTimeTextInLabel (lblTimeDuration, TimerRef.TotalDurationFormatted (false));
-				SetTimeTextInLabel (lblTimeRest, TimerRef.TotalRestTimeFormatted (false));
-		
-		
+				
+				if (CurrentTotalTimeMode == TotalTimeMode.Down)
+				{
+					SetTimeTextInLabel (lblTimeRest, TimerRef.TotalRestTimeFormatted (false));
+				}
+				else
+				{
+					SetTimeTextInLabel (lblTimeRest, TimerRef.TotalElapsedTimeFormatted (false));
+				}
+
 				txtRound.text = TimerRef.CurrentRound ().ToString ();
 				txtRoundCount.text = TimerRef.RoundCount ().ToString ();
 				
-				lblActualTime.text = TimerRef.GetActualTime();
+				lblActualTime.text = TimerRef.GetActualTime(CurrentActualTimeMode == ActualTimeMode.TwentyFour);
+
+				if (TimerRef.Cfg.Name.Contains("STR_")) 
+					txtTrainingName.text = core.TextManager.Instance.Get(TimerRef.Cfg.Name);
+				else
+					txtTrainingName.text = TimerRef.Cfg.Name;
 		}
 	}
 
@@ -229,4 +265,32 @@ public class TimerVisualController : MonoBehaviour {
 		UpdateTexts ();
 	}
 
+
+	public void OnTotalTimeClick()
+	{
+		int nextMode = (int)CurrentTotalTimeMode + 1;
+
+		if (nextMode == (int)TotalTimeMode.Count)
+		{
+			CurrentTotalTimeMode = (TotalTimeMode)0;
+		}
+		else
+		{
+			CurrentTotalTimeMode = (TotalTimeMode)nextMode;
+		}
+
+		UpdateTexts ();
+
+	}
+
+
+	public void OnActualTimeClick()
+	{
+		if (CurrentActualTimeMode == ActualTimeMode.AmPm)
+			CurrentActualTimeMode = ActualTimeMode.TwentyFour;
+		else
+			CurrentActualTimeMode = ActualTimeMode.AmPm;
+
+		UpdateTexts ();
+	}
 }

@@ -26,10 +26,17 @@ namespace core
 
 
 		public static List<string> SupportedLanguages { get; private set; }
+		public static string Version { get; private set; }
+
 
 		private static string LanguageFilename = "text_";
 		private static string DefaultLanguage = "english";
 		private static string SupportedLanguagesFilename = "Texts/SupportedLanguages";
+		private static string VersionFilename = "version";
+
+
+	
+
 
 		public static bool IsLanguageSupported(string language)
 		{
@@ -59,6 +66,7 @@ namespace core
 		public static void Init()
 		{
 			LoadSupportedLanguages ();
+			LoadVersion ();
 		}
 
 		public static bool ShowRemovePresetConfirmation()
@@ -89,6 +97,11 @@ namespace core
 				core.dbg.Dbg.Log(SupportedLanguages[i]);
 			}
 #endif
+		}
+
+		private static void LoadVersion()
+		{
+			Version = Utils.ReadLinesFromResourceFile (VersionFilename) [0];
 		}
 
 

@@ -80,3 +80,9 @@ STR_ACTUAL_TIME
 Aktuální čas
 STR_TOTAL
 Total
+STR_VERSION
+Verze
+STR_LABEL_COOL_DOWN
+Vychladnutí
+STR_COOL_DOWN
+Zchladni
