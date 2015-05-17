@@ -17,5 +17,11 @@ namespace trn
 			public static string DlgTrainingAlreadyExists = "DlgTrainingAlreadyExists";
 			public static string DlgRemovePreset = "DlgRemovePreset";
 		}
+
+		public static class TabDef
+		{
+			public static string Main = "Main";
+		}
+
 	}
 }

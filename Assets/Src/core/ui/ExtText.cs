@@ -19,7 +19,7 @@ namespace core
 
 			
 
-			private Text Text { get; set; }
+			public Text Text { get; set; }
 			private string TextValue { get; set; }
 
 			void Init()

@@ -197,6 +197,8 @@ public class SettingsController : MonoBehaviour
 				presetController.PresetName = AppRoot.Instance.Timer.Presets[i].Name;
 				presetController.name = AppRoot.Instance.Timer.Presets[i].Name;
 				presetController.Removable = AppRoot.Instance.Timer.Presets[i].Removable;
+
+				presetController.ExtText.Text.enabled = true;
 			}
 		}
 

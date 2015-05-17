@@ -42,10 +42,18 @@ public class AppRoot : core.AppRootBase
 
 	public static AppRoot Instance { get { return _instance; } }
 
+	public GoogleAnalyticsV3 Anl { get { return gAnal; } }
+
 	private static AppRoot _instance = null;
+
+	private GoogleAnalyticsV3 gAnal;
 
 	protected override void OnPreInit()
 	{
+		gAnal = GameObject.FindObjectOfType<GoogleAnalyticsV3> ();
+		gAnal.StartSession ();
+
+
 		_instance = this;
 
 		// run in 20 fps
@@ -61,6 +69,8 @@ public class AppRoot : core.AppRootBase
 
 	protected override void OnPostInit()
 	{
+		Anl.LogScreen (trn.ui.TabDef.Main.ToString ());
+
 		TimerController.TimerRef = Timer;
 
 		Timer.Reset();
@@ -138,6 +148,9 @@ public class AppRoot : core.AppRootBase
 		{
 			Timer.Pause();
 			CrittercismAndroid.LeaveBreadcrumb("AppRoot.PauseTimer() ");
+
+			AppRoot.Instance.Anl.LogEvent (new EventHitBuilder ().SetEventCategory (trn.anl.Def.EvtFinished).SetEventAction (trn.anl.Def.Action.Training));
+
 		}
 		else
 		{
@@ -173,15 +186,27 @@ public class AppRoot : core.AppRootBase
 			{
 				Screen.sleepTimeout = SleepTimeout.NeverSleep;
 				Timer.Run();
+			
+				AppRoot.Instance.Anl.LogEvent 
+					(new EventHitBuilder ().SetEventCategory 
+					 (trn.anl.Def.EvtStart).SetEventAction 
+					 (trn.anl.Def.Action.Training).SetEventLabel(Timer.Cfg.ToString()));
 			}
 		}
 		else if (Timer.CurrentState == Timer.State.Paused)
 		{
 			Screen.sleepTimeout = SleepTimeout.NeverSleep;
 			Timer.UnPause();
+
+			AppRoot.Instance.Anl.LogEvent 
+				(new EventHitBuilder ().SetEventCategory 
+				 (trn.anl.Def.EvtPause).SetEventAction 
+				 (trn.anl.Def.Action.Training));
 		}
 
 		CrittercismAndroid.LeaveBreadcrumb("AppRoot.Play()");
+	
+
 	}
 
 
@@ -190,11 +215,17 @@ public class AppRoot : core.AppRootBase
 		pnlSettingsController.OnPresetClick (preset);
 
 		CrittercismAndroid.LeaveBreadcrumb("AppRoot.OnPresetClick() " + preset.PresetName);
+
+		AppRoot.Instance.Anl.LogEvent 
+			(new EventHitBuilder ().SetEventCategory 
+			 (trn.anl.Def.EvtClick).SetEventAction 
+			 (trn.anl.Def.Action.Preset).SetEventLabel(preset.PresetName));
 	}
 
 	public void OnTimerEnded()
 	{
 		UIManager.OpenDialog (trn.ui.DialogDef.DlgTrainingFinished);
+		AppRoot.Instance.Anl.LogEvent (new EventHitBuilder ().SetEventCategory (trn.anl.Def.EvtFinished).SetEventAction (trn.anl.Def.Action.Training));
 	}
 
 	public void ShowSettingsPage()
@@ -204,6 +235,8 @@ public class AppRoot : core.AppRootBase
 		pnlSettingsController.Init();
 
 		CrittercismAndroid.LeaveBreadcrumb("AppRoot.ShowSettingsPage() ");
+	
+		Anl.LogEvent (new EventHitBuilder ().SetEventCategory (trn.anl.Def.EvtClick).SetEventAction (trn.anl.Def.Action.Settings));
 	}
 
 	public void ShowTimerPage()
@@ -212,6 +245,8 @@ public class AppRoot : core.AppRootBase
 		pnlSettingsController.gameObject.SetActive(false);
 
 		CrittercismAndroid.LeaveBreadcrumb("AppRoot.ShowTimerPage() ");
+
+		Anl.LogEvent (new EventHitBuilder ().SetEventCategory (trn.anl.Def.EvtClick).SetEventAction (trn.anl.Def.Action.Timer));
 	}
 
 	public void ShowPageWorkout()
@@ -239,6 +274,8 @@ public class AppRoot : core.AppRootBase
 		UIManager.CloseDialog (trn.ui.DialogDef.DlgResetTimer);
 
 		Stop (false);
+	
+		Anl.LogEvent (new EventHitBuilder ().SetEventCategory (trn.anl.Def.EvtClick).SetEventAction (trn.anl.Def.Action.CancelWorkoutOk));
 	}
 
 	public void OnCancelWorkoutDialogBack()
@@ -248,12 +285,16 @@ public class AppRoot : core.AppRootBase
 		UIManager.CloseDialog (trn.ui.DialogDef.DlgResetTimer);
 
 		Play();
+
+		Anl.LogEvent (new EventHitBuilder ().SetEventCategory (trn.anl.Def.EvtClick).SetEventAction (trn.anl.Def.Action.CancelWorkoutBack));
 	}
 
 	public void OnTrainingFinishedDialogOK()
 	{
 		UIManager.CloseDialog (trn.ui.DialogDef.DlgTrainingFinished);
 		Timer.Reset ();
+	
+		Anl.LogEvent (new EventHitBuilder ().SetEventCategory (trn.anl.Def.EvtClick).SetEventAction (trn.anl.Def.Action.TrainingFinishedOk));
 	}
 
 	public void OnDemoVersionDialogPurchase()
@@ -295,17 +336,24 @@ public class AppRoot : core.AppRootBase
 
 		if (index != -1)
 		{
+			Anl.LogEvent (new EventHitBuilder ().SetEventCategory (trn.anl.Def.EvtClick).SetEventAction (trn.anl.Def.Action.RemovePresetOk).SetEventLabel (Timer.Presets[index].Name));
+		
 			Timer.Presets.RemoveAt(index);
 		}
 
 		(Save as trn.CustomSave).SavePresets ();
 
 		pnlSettingsController.OnRemovePreset (presetController);
+
+
 	}
 
 	public void OnRemovePresetConfirmationNo()
 	{
 		AppRoot.Instance.UIManager.CloseDialog (trn.ui.DialogDef.DlgRemovePreset);
+
+		Anl.LogEvent (new EventHitBuilder ().SetEventCategory (trn.anl.Def.EvtClick).SetEventAction (trn.anl.Def.Action.RemovePresetCancel));
+
 	}
 
 
@@ -358,7 +406,6 @@ public class AppRoot : core.AppRootBase
 		{
 			PauseTimer();
 		}
+	}	
 
-	}
-	
 }

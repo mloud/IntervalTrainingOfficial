@@ -69,6 +69,22 @@ public class Timer : MonoBehaviour
 		public bool Sound = true;
 		public string Id;
 
+		public override string ToString()
+		{
+			StringBuilder str = new StringBuilder ();
+			str.Append ("Name:[").Append (Name).Append ("]").Append (",");
+			str.Append ("Rep:[").Append (RepetitionCount.ToString()).Append ("]").Append (",");
+
+			str.Append ("IntCount:[").Append (Intervals.Count).Append ("]").Append (",");
+
+			for (int i = 0; i < Intervals.Count; ++i) 
+			{
+				str.Append ("I:[").Append (i.ToString()).Append ("]").Append ("=").Append(Intervals[i].Name).Append(",").Append(Intervals[i].Duration().ToString());			
+			}
+
+			return str.ToString ();
+		}
+
 		public Config Clone()
 		{
 			Config config = new Config ();

@@ -19,7 +19,8 @@ namespace trn
 
 			protected override void OnEnable()
 			{
-				InputField.value = "";
+				//InputField.value = "";
+
 			}
 		}
 	}

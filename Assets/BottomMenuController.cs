@@ -114,6 +114,9 @@ public class BottomMenuController : MonoBehaviour
 		{
 			Panels[i].UIPanel.gameObject.SetActive(i == index);
 		}
+
+		AppRoot.Instance.Anl.LogEvent (new EventHitBuilder ().SetEventCategory (trn.anl.Def.EvtClick).SetEventAction (Panels[index].UIPanel.gameObject.name));
+
 	}
 
 
